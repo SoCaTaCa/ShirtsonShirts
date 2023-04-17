@@ -107,7 +107,7 @@ const seedDB = async () => {
     };
 };
 
-rebuildDB()
-    .then(seedDB)
-    .catch(console.error)
-    .finally(() => client.end());
+module.exports = {
+    rebuildDB,
+    seedDB
+}

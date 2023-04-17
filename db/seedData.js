@@ -1,4 +1,5 @@
 const client = require('./client');
+const { createCategory } = require('./categories');
 
 const dropTables = async () => {
     try {
@@ -63,9 +64,26 @@ const createTables = async () => {
         `)
         console.log('Finished creating tables!');
     } catch (error) {
+        console.log('Error creating tables!');
         console.error(error);
     };
 
+};
+
+const createInitialCategories = async () => {
+    try {
+        console.log('Creating initial categoreis...');
+
+        const categoryOne = await createCategory('tee-shirt');
+        const categoryTwo = await createCategory('tank-top');
+        const categoryThree = await createCategory('long-sleeve');
+
+        console.log([categoryOne, categoryTwo, categoryThree]);
+
+        console.log('Finsihed creating categories!');
+    } catch (err) {
+        console.log('Error creating initial categories!');
+    };
 };
 
 const rebuildDB = async () => {
@@ -81,7 +99,7 @@ const rebuildDB = async () => {
 const seedDB = async () => {
     try {
         console.log('Seeding databse...');
-        
+        await createInitialCategories();
         console.log('Finished seeding database!');
     } catch (error) {
         console.log('Error seeding databse!');
@@ -93,8 +111,3 @@ rebuildDB()
     .then(seedDB)
     .catch(console.error)
     .finally(() => client.end());
-
-module.exports = {
-    rebuildDB,
-    seedDB
-};

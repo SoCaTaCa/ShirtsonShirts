@@ -1,8 +1,10 @@
 const client = require('../../db/client');
+const { rebuildDB, seedDB } = require('../../db/seedData');
 const { createCategory } = require('../../db/categories');
 
 // Write tests inside of this function.
 const test = async () => {
+    console.log('--- RUNNING db/categories TESTS ---');
     try {
         console.log('Testing createCategory');
         const fakeCategory = await createCategory("fakecat");
@@ -14,9 +16,11 @@ const test = async () => {
     } catch (err) {
         console.log('Error runnning tests!', err);
     };
+    console.log('--- TESTS FINISHED! ---');
 };
 
-client.connect()
+rebuildDB()
+    .then(seedDB)
     .then(test)
     .catch(console.error)
     .finally(() => client.end());

@@ -1,10 +1,15 @@
-const { rebuildDB, seedDB } = require('../../db/seedData');
-// Re-initialize database
-rebuildDB();
-seedDB();
+const client = require('../../db/client');
 
-// Write tests below
+// Write tests inside of this function.
+const test = async () => {
+    try {
 
-// Clear database of test information
-rebuildDB();
-seedDB();
+    } catch (err) {
+        console.log('Error runnning tests!', err);
+    };
+};
+
+client.connect()
+    .then(test)
+    .catch(console.error)
+    .finally(() => client.end());

@@ -1,10 +1,22 @@
-const { rebuildDB, seedDB } = require('../../db/seedData');
-// Re-initialize database
-rebuildDB();
-seedDB();
+const client = require('../../db/client');
+const { createCategory } = require('../../db/categories');
 
-// Write tests below
+// Write tests inside of this function.
+const test = async () => {
+    try {
+        console.log('Testing createCategory');
+        const fakeCategory = await createCategory("fakecat");
+        if (typeof fakeCategory === "object" && fakeCategory.name === "fakecat") {
+            console.log("passed");
+        } else {
+            console.log("failed");
+        };
+    } catch (err) {
+        console.log('Error runnning tests!', err);
+    };
+};
 
-// Clear database of test information
-rebuildDB();
-seedDB();
+client.connect()
+    .then(test)
+    .catch(console.error)
+    .finally(() => client.end());

@@ -31,6 +31,7 @@ const getUserById = async (userId) => {
       WHERE id=${userId}
     `
     );
+    delete user.password;
     return user;
   } catch (err) {
     console.log("getUserByID error", err);
@@ -49,14 +50,30 @@ const getUserByUsername = async (username) => {
       WHERE username='${username}'
     `
     );
+    delete user.password;
     return user;
   } catch (err) {
     console.log("getUserByUsername error", err);
   }
 };
 
+const getUser = async ({ username, password }) => {
+  try {
+    const { rows: [user] } = await client.query(`
+      SELECT *
+      FROM users
+      WHERE username='${username}'
+      AND password='${password}';
+    `);
+    return user;
+  } catch (err) {
+    console.log("getUser error", err);
+  };
+};
+
 module.exports = {
   createUser,
   getUserById,
-  getUserByUsername
+  getUserByUsername,
+  getUser
 };

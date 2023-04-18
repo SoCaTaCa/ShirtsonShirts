@@ -1,5 +1,6 @@
 const client = require('./client');
 const { createCategory } = require('./categories');
+const { createUser } = require('./users');
 
 const dropTables = async () => {
     try {
@@ -70,6 +71,42 @@ const createTables = async () => {
 
 };
 
+const createInitialUsers = async () => {
+    try {
+        console.log('Creating initial users...');
+
+        const tate = await createUser({
+            username: 'tredding',
+            password: 'slushies89',
+            isAdmin: false
+        });
+
+        const cass = await createUser({
+            username: 'cdoussan',
+            password: 'apples45',
+            isAdmin: true
+        });
+
+        const soren = await createUser({
+            username: 'saxelson',
+            password: 'saxman33',
+            isAdmin: false
+        });
+
+        const caro = await createUser({
+            username: 'cpruna',
+            password: 'shirtsarethefuture',
+            isAdmin: true
+        });
+
+        console.log([tate, cass, soren, caro])
+        console.log('Finished creating users!');
+    } catch (err) {
+        console.log('Error creating users!');
+        console.log(err);
+    }
+}
+
 const createInitialCategories = async () => {
     try {
         console.log('Creating initial categoreis...');
@@ -83,6 +120,7 @@ const createInitialCategories = async () => {
         console.log('Finsihed creating categories!');
     } catch (err) {
         console.log('Error creating initial categories!');
+        console.log(err);
     };
 };
 
@@ -100,6 +138,7 @@ const seedDB = async () => {
     try {
         console.log('Seeding databse...');
         await createInitialCategories();
+        await createInitialUsers();
         console.log('Finished seeding database!');
     } catch (error) {
         console.log('Error seeding databse!');

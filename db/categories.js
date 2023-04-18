@@ -13,6 +13,19 @@ const createCategory = async (name) => {
     };
 };
 
+const getAllCategories = async () => {
+    try {
+        const { rows: categories } = await client.query(`
+            SELECT *
+            FROM categories
+        `);
+        return categories;
+    } catch (err) {
+        console.log('getAllCategories error', err);
+    };
+};
+
 module.exports = {
-    createCategory
+    createCategory,
+    getAllCategories
 };

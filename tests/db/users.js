@@ -35,11 +35,17 @@ const test = async () => {
         };
 
         console.log('Testing getUser');
-        const testUserThree = await getUser({
+        const testUserThreeInfo = {
             username: 'fakeuser',
             password: 'password1234'
-        });
-        if (typeof testUserThree === "object" && fakeUser.id === testUserThree.id) {
+        }
+        const testUserThree = await getUser(testUserThreeInfo);
+        const { rows: [hashed] } = await client.query(`
+            SELECT password
+            FROM users
+            WHERE username='${testUserThreeInfo.username}'
+        `);
+        if (typeof testUserThree === "object" && fakeUser.id === testUserThree.id && testUserThreeInfo.password !== hashed.password) {
             console.log('passed');
         } else {
             console.log('FAILED');

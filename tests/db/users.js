@@ -1,6 +1,6 @@
 const client = require('../../db/client');
 const { rebuildDB, seedDB } = require('../../db/seedData');
-const { createUser, getUserById, getUserByUsername } = require('../../db/users');
+const { createUser, getUserById, getUserByUsername, getUser } = require('../../db/users');
 
 // Write tests inside of this function.
 const test = async () => {
@@ -33,6 +33,17 @@ const test = async () => {
         } else {
             console.log('FAILED');
         };
+
+        console.log('Testing getUser');
+        const testUserThree = await getUser({
+            username: 'fakeuser',
+            password: 'password1234'
+        });
+        if (typeof testUserThree === "object" && fakeUser.id === testUserThree.id) {
+            console.log('passed');
+        } else {
+            console.log('FAILED');
+        }
 
     } catch (err) {
         console.log('Error runnning tests!', err);

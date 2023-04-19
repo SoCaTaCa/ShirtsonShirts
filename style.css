@@ -1,0 +1,33 @@
+/* ---HEADER CSS--- */
+
+#header {
+    margin-bottom: 10px;
+}
+
+/* ---LOGIN CSS--- */
+
+#login-container {
+    display: flex;
+    justify-content: center;
+}
+
+#login {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 500px;
+}
+
+#login-field {
+    min-width: 350px;
+    max-width: 500px;
+}
+
+#login-buttons {
+    margin-top: 13px;
+    width: 100px;
+}
+
+#login-buttons:first-of-type {
+    margin-right: 5px;
+}

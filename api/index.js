@@ -31,8 +31,8 @@ apiRouter.use(async (req, res, next) => {
   }
 });
 
-// ROUTER: /api/cartitems
-const cartItemsRouter = require("./cartitems");
+// ROUTER: /api/cartItems
+const cartItemsRouter = require("./cartItems");
 apiRouter.use("/cartitems", cartItemsRouter);
 
 // ROUTER: /api/carts

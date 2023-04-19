@@ -17,8 +17,8 @@ require("dotenv").config();
 app.use(morgan("dev"));
 app.use(bodyParser.json());
 
-// const apiRouter = require("./api/index.js");
-// app.use("/api", apiRouter);
+const apiRouter = require("./api/index.js");
+app.use("/api", apiRouter);
 
 app.use(cors());
 

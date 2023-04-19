@@ -52,8 +52,11 @@ const getUserByUsername = async (username) => {
       WHERE username='${username}'
     `
     );
-    delete user.password;
-    return user;
+    if (user) {
+      delete user.password;
+      return user;
+    }
+    return null;
   } catch (err) {
     console.log("getUserByUsername error", err);
   }

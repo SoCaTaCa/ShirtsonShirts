@@ -27,7 +27,7 @@ const Login = (props) => {
             })
 
             if (!response.data.success) {
-                return setErrorMessage(response.data.errorMessage);
+                return setErrorMessage(response.data.message);
             } else {
                 props.setUserToken(response.data.token);
                 return props.setIsLoggedIn(true);

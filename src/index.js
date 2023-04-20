@@ -7,11 +7,11 @@ import Login from './components/Login.js';
 
 const App = () => {
     const [userToken, setUserToken] = useState('');
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(window.localStorage.getItem('token'));
 
     return (
         <>
-        <Header/>
+        <Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} setUserToken={setUserToken}/>
             <Routes>
                 <Route path='/' element={<Home />}></Route>
                 <Route path='/login' element={<Login isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} setUserToken={setUserToken}/>}></Route>

@@ -5,7 +5,14 @@ const { getAllCategories, createCategory } = require('../db/categories');
 router.get('/', async (req, res) => {
     try {
         const categories = await getAllCategories();
-        res.send(categories);
+        if (categories) {
+            res.send({
+                success: true,
+                categories
+            });
+        } else {
+            res.send({ success: false });
+        }
     } catch (error) {
         console.error(error);
     };
@@ -15,7 +22,14 @@ router.post('/', async (req, res) => {
     const { name } = req.body;
     try {
         const category = await createCategory(name);
-        res.send(category);
+        if (category) {
+            res.send({
+                success: true,
+                category
+            });
+        } else {
+            res.send({ success: false });
+        }
     } catch (error) {
         console.error(error);
     };

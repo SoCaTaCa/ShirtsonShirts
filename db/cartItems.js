@@ -1,20 +1,11 @@
-const createCartItem = (itemData) => {
-    if (!itemData || typeof itemData !== 'object') {
-      throw new Error('Invalid item data');
-    }
-    if (!itemData.productId || typeof itemData.productId !== 'string') {
-      throw new Error('Invalid product ID');
-    }
-    if (!itemData.quantity || typeof itemData.quantity !== 'number' || itemData.quantity <= 0) {
-      throw new Error('Invalid item quantity');
-    }
-    const result = db.query('INSERT INTO cart_items (product_id, quantity) VALUES (?, ?)', [itemData.productId, itemData.quantity]);
-    if (result.affectedRows !== 1) {
-      throw new Error('Failed to create cart item');
-    }
-    return {
-      id: result.insertId,
-      productId: itemData.productId,
-      quantity: itemData.quantity
-    };
-  }
+const client = require('./db/client');
+
+const createCart = async ({ userId }) => {
+  const query = {
+    text: 'INSERT INTO carts(user_id) VALUES($1) RETURNING *',
+    values: [userId]
+  };
+
+  const { rows } = await client.query(query);
+  return rows[0];
+};

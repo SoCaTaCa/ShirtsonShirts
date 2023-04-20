@@ -1,15 +1,11 @@
-const createCart = (cartData) => {
-  const { userId } = cartData; 
-  if (!userId || typeof userId !== 'string') {
-    throw new Error('Invalid user ID');
-  }
-  const result = db.query('INSERT INTO carts (user_id) VALUES (?)', [userId]);
-  if (result.affectedRows !== 1) {
-    throw new Error('Failed to create cart');
-  }
-  return {
-    id: result.insertId,
-    userId,
-    createdAt: new Date().toISOString() 
+const client = require('./db/client');
+
+const createCart = async ({ userId }) => {
+  const query = {
+    text: 'INSERT INTO carts(user_id) VALUES($1) RETURNING *',
+    values: [userId]
   };
+
+  const { rows } = await client.query(query);
+  return rows[0];
 };

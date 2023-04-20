@@ -2,7 +2,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 
-const Header = () => {
+const Header = (props) => {
+
+    const Logout = () => {
+        window.localStorage.removeItem('token');
+        props.setUserToken('');
+        return props.setIsLoggedIn(false);
+    }
+
     return (
         <>
             <nav id='header' className="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -17,7 +24,9 @@ const Header = () => {
                             <Link className="nav-item nav-link" to="/">Products</Link>
                             <Link className="nav-item nav-link" to="/">Orders</Link>
                             <Link className="nav-item nav-link" to="/">Cart</Link>
-                            <Link className="nav-item nav-link" to="/login">Login</Link>
+                            {props.isLoggedIn ? <Link onClick={() => {
+                                Logout();
+                            }} className="nav-item nav-link" to="/products">Logout</Link> : <Link className="nav-item nav-link" to="/login">Login</Link>}
                         </div>
                     </div>
                 </div>

@@ -4,7 +4,7 @@
     margin-bottom: 10px;
 }
 
-/* ---LOGIN CSS--- */
+/* ---LOGIN CSS && REGISTER CSS --- */
 
 #login-container {
     display: flex;
@@ -21,10 +21,10 @@
 #login-field {
     min-width: 350px;
     max-width: 500px;
+    margin-bottom: 15px;
 }
 
 #login-buttons {
-    margin-top: 13px;
     width: 100px;
 }
 

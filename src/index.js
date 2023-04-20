@@ -4,6 +4,7 @@ import { HashRouter, Routes, Route } from 'react-router-dom';
 import Home from './components/Home.js';
 import Header from './components/Header.js';
 import Login from './components/Login.js';
+import Register from './components/Register.js';
 
 const App = () => {
     const [userToken, setUserToken] = useState('');
@@ -15,6 +16,7 @@ const App = () => {
             <Routes>
                 <Route path='/' element={<Home />}></Route>
                 <Route path='/login' element={<Login isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} setUserToken={setUserToken}/>}></Route>
+                <Route path='/register' element={<Register setUserToken={setUserToken} setIsLoggedIn={setIsLoggedIn}/>}></Route>
             </Routes>
         </>
     )

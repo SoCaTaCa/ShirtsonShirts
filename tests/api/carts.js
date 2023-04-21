@@ -7,6 +7,18 @@ const { rebuildDB, seedDB } = require('../../db/seedData');
 const test = async () => {
     console.log('--- RUNNING api/carts TESTS ---');
     try {
+        console.log('Testing get to /:userId/current');
+        const goodResponse = await request(app)
+            .get('/api/carts/2/current');
+
+        const badResponse = await request(app)
+            .get('/api/carts/1/current')
+        if (goodResponse.body.success && badResponse.body.error === 'NoCurrentCart') {
+            console.log('passed');
+        } else {
+            console.log('FAILED');
+        }
+
 
     } catch (err) {
         console.log('Error runnning tests!', err);

@@ -1,33 +1,33 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 
-const Header = () => {
+const Header = (props) => {
+
+    const Logout = () => {
+        window.localStorage.removeItem('token');
+        props.setUserToken('');
+        return props.setIsLoggedIn(false);
+    }
+
     return (
         <>
-            <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="#">Shirts on Shirts</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
+            <nav id='header' className="navbar navbar-expand-lg navbar-dark bg-primary">
+                <div className='container'>
+                    <a className="navbar-brand" href="#">Shirts on Shirts</a>
+                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                        <span className="navbar-toggler-icon"></span>
                     </button>
-                    <div class="collapse navbar-collapse" id="navbarText">
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Products</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Cart</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Orders</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Login</a>
-                            </li>
-                        </ul>
+                    <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
+                        <div className="navbar-nav">
+                            <Link className="nav-item nav-link" to="/">Home</Link>
+                            <Link className="nav-item nav-link" to="/">Products</Link>
+                            <Link className="nav-item nav-link" to="/">Orders</Link>
+                            <Link className="nav-item nav-link" to="/">Cart</Link>
+                            {props.isLoggedIn ? <Link onClick={() => {
+                                Logout();
+                            }} className="nav-item nav-link" to="/products">Logout</Link> : <Link className="nav-item nav-link" to="/login">Login</Link>}
+                        </div>
                     </div>
                 </div>
             </nav>

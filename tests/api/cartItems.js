@@ -1,4 +1,6 @@
 const client = require('../../db/client');
+const app = require('../../app')
+const request = require('supertest');
 const { rebuildDB, seedDB } = require('../../db/seedData');
 
 // Write tests inside of this function.

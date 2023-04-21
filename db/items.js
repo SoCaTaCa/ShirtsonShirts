@@ -10,6 +10,49 @@ const createItem = async ({ name, price, size, categoryId, description }) => {
   return rows[0];
 };
 
+const getAllItems = async () => {
+  const query = {
+    text: 'SELECT * FROM items',
+  };
+
+  const { rows } = await client.query(query);
+  return rows;
+};
+
+const getItemById = async (id) => {
+  const query = {
+    text: 'SELECT * FROM items WHERE id = $1',
+    values: [id],
+  };
+
+  const { rows } = await client.query(query);
+  return rows[0];
+};
+
+const getItemsByCategory = async (categoryId) => {
+  const query = {
+    text: 'SELECT * FROM items WHERE category_id = $1',
+    values: [categoryId],
+  };
+
+  const { rows } = await client.query(query);
+  return rows;
+};
+
+const getItemsByName = async (name) => {
+  const query = {
+    text: 'SELECT * FROM items WHERE name ILIKE $1',
+    values: [`%${name}%`],
+  };
+
+  const { rows } = await client.query(query);
+  return rows;
+};
+
 module.exports = {
-  createItem
+  createItem,
+  getAllItems,
+  getItemById,
+  getItemsByCategory,
+  getItemsByName,
 };

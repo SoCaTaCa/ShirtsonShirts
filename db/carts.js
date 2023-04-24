@@ -43,8 +43,31 @@ const getCurrentCart = async (userId) => {
   };
 };
 
+const getPreviousCarts = async (userId) => {
+  try {
+    const { rows: carts } = await client.query(`
+      SELECT *
+      FROM carts
+      WHERE "userId"=${userId}
+      AND "isPurchased"=true
+    `);
+    if (carts) {
+      for (let i = 0; i < carts.length; i++) {
+        if (carts[i]) {
+          carts[i].items = await getCartItemsByCartId(carts[i].id);
+        };
+      };
+      return carts;
+    };
+    return null;
+  } catch (error) {
+    console.error(error);
+  };
+};
+
 module.exports = {
   createCart,
   purchaseCart,
-  getCurrentCart
+  getCurrentCart,
+  getPreviousCarts
 };

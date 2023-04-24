@@ -39,8 +39,23 @@ const updateCartItem = async (id, quantity) => {
   };
 };
 
+const destroyCartItem = async (id) => {
+  try {
+    const query = {
+      text: 'DELETE FROM cart_items WHERE id=($1) RETURNING *;',
+      values: [id]
+    };
+
+    const { rows } = await client.query(query);
+    return rows[0];
+  } catch (error) {
+    console.error(error);
+  };
+};
+
 module.exports = {
   createCartItem,
   getCartItemsByCartId,
-  updateCartItem
+  updateCartItem,
+  destroyCartItem
 };

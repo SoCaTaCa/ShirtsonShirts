@@ -1,3 +1,4 @@
+const { getCurrentCart } = require('../../db/carts');
 const client = require('../../db/client');
 const { rebuildDB, seedDB } = require('../../db/seedData');
 
@@ -5,6 +6,13 @@ const { rebuildDB, seedDB } = require('../../db/seedData');
 const test = async () => {
     console.log('--- RUNNING db/carts TESTS ---');
     try {
+        console.log('Testing getCurrentCart');
+        const cart = await getCurrentCart(2);
+        if (cart && !cart.isPurchased) {
+            console.log('passed');
+        } else {
+            console.log('FAILED');
+        };
 
     } catch (err) {
         console.log('Error runnning tests!', err);

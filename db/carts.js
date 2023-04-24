@@ -1,4 +1,5 @@
 const client = require('./client');
+const { getCartItemsByCartId } = require('./cartItems');
 
 const createCart = async ({ userId }) => {
   const query = {
@@ -24,7 +25,26 @@ const purchaseCart = async (id) => {
   };
 };
 
+const getCurrentCart = async (userId) => {
+  try {
+    const { rows: [cart] } = await client.query(`
+      SELECT *
+      FROM carts
+      WHERE "userId"=${userId}
+      AND "isPurchased"=false
+    `);
+    if (cart) {
+      cart.items = await getCartItemsByCartId(cart.id);
+      return cart;
+    };
+    return null;
+  } catch (error) {
+    console.error(error);
+  };
+};
+
 module.exports = {
   createCart,
-  purchaseCart
+  purchaseCart,
+  getCurrentCart
 };

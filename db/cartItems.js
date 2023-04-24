@@ -25,7 +25,22 @@ const getCartItemsByCartId = async (cartId) => {
   };
 };
 
+const updateCartItem = async (id, quantity) => {
+  try {
+    const query = {
+      text: 'UPDATE cart_items SET quantity=($1) WHERE id=($2) RETURNING *;',
+      values: [quantity, id]
+    };
+
+    const { rows } = await client.query(query);
+    return rows[0];
+  } catch (error) {
+    console.error(error);
+  };
+};
+
 module.exports = {
   createCartItem,
-  getCartItemsByCartId
+  getCartItemsByCartId,
+  updateCartItem
 };

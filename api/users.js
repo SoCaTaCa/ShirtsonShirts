@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const jwt = require('jsonwebtoken');
+// we're using our JWT_SECRET throughout a couple of these functions, so we could extract it in the global scope
+// const { JWT_SECRET } = process.env;
 
 const { getUser, getUserByUsername, createUser } = require('../db/users');
 

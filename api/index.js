@@ -31,6 +31,8 @@ apiRouter.use(async (req, res, next) => {
   }
 });
 
+// these can be combined into one line if you guys would like to, purely optional
+// example: apiRouter.use("/cartitems", require("./cartItems"));
 // ROUTER: /api/cartItems
 const cartItemsRouter = require("./cartItems");
 apiRouter.use("/cartitems", cartItemsRouter);

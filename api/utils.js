@@ -10,5 +10,6 @@ const requireUser =((req, res, next) => {
     }
     next();
 }) 
+// requireAdminUser
 
 module.exports = requireUser;

@@ -17,6 +17,7 @@ const Login = (props) => {
 
     const accountLogin = async (event) => {
         event.preventDefault();
+        // it would be slightly better to just pass this data in directly rather than storing it again. We could change our state above to be username and password if we want to still use shorthand syntax in our axios request
         let username = loginUsername;
         let password = loginPassword;
 
@@ -26,6 +27,7 @@ const Login = (props) => {
                 password
             })
 
+            // do we need returns here?
             if (!response.data.success) {
                 return setErrorMessage(response.data.message);
             } else {
@@ -94,7 +96,7 @@ const Login = (props) => {
                     </form>
                 </div>
             </div>
-        </div>
+        </div> // empty line below, formatting
 
     )
 }

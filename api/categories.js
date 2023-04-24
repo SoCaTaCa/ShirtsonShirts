@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
         console.error(error);
     };
 });
-
+// can any user create a category or just admin users?
 router.post('/', async (req, res) => {
     const { name } = req.body;
     try {

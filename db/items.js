@@ -1,8 +1,10 @@
 const client = require('./client');
 
+// try-catch blocks throughout all of these async functions
+// include semi-colons at the end of all these SQL statements for safety
 const createItem = async ({ name, price, size, categoryId, description }) => {
   const query = {
-    text: 'INSERT INTO items(name, price, size, "categoryId", description) VALUES($1, $2, $3, $4, $5) RETURNING *',
+    text: `INSERT INTO items(name, price, size, "categoryId", description) VALUES($1, $2, $3, $4, $5) RETURNING *;`,
     values: [name, price, size, categoryId, description]
   };
 
@@ -14,7 +16,6 @@ const getAllItems = async () => {
   const query = {
     text: 'SELECT * FROM items',
   };
-
   const { rows } = await client.query(query);
   return rows;
 };

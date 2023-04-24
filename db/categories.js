@@ -1,3 +1,4 @@
+// we can change our client import to './client' as ../db just goes in and out of the folder
 const client = require('../db/client');
 const createCategory = async (name) => {
     try {
@@ -13,6 +14,7 @@ const createCategory = async (name) => {
 };
 const getAllCategories = async () => {
     try {
+    // semi-colon to end our SQL statements
         const { rows: categories } = await client.query(`
             SELECT *
             FROM categories

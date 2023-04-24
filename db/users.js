@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const createUser = async ({ username, password, isAdmin }) => {
   try {
     password = await bcrypt.hash(password, 10);
+    // it would be best to normalize the system we use for our queries as well, whether it be passing the string directly in, or using a query object
     const {
       rows: [user],
     } = await client.query(
@@ -24,6 +25,8 @@ const createUser = async ({ username, password, isAdmin }) => {
 // takes in a user ID and returns the corresponding user
 const getUserById = async (userId) => {
   try {
+    // make sure to use prepared statement to avoid SQL injection
+    // semi-colon to end our SQL statements
     const {
       rows: [user],
     } = await client.query(
@@ -43,6 +46,8 @@ const getUserById = async (userId) => {
 // takes in a username and returns the corresponding user
 const getUserByUsername = async (username) => {
   try {
+    // make sure to use prepared statement to avoid SQL injection
+    // semi-colon to end our SQL statements
     const {
       rows: [user],
     } = await client.query(
@@ -64,6 +69,8 @@ const getUserByUsername = async (username) => {
 
 const getUser = async ({ username, password }) => {
   try {
+    // make sure to use prepared statement to avoid SQL injection
+    // semi-colon to end our SQL statements
     const { rows: [user] } = await client.query(`
       SELECT *
       FROM users

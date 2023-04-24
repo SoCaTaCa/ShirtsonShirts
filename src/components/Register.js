@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import axios from 'axios';
-
+// we could destructure our props rather than using props.thingWeNeed throughout if we'd like
 const Register = (props) => {
     const [registerUsername, setRegisterUsername] = useState('');
     const [registerPassword, setRegisterPassword] = useState('');
     const [confirmRegisterPassword, setConfirmRegisterPassword] = useState('');
     const [registerPasswordsMatch, setRegisterPasswordsMatch] = useState(false);
+    // we may want to initialize allFieldsComplete to false
     const [allFieldsComplete, setAllFieldsComplete] = useState(true);
     const [errorMessage, setErrorMessage] = useState('');
     const [isRegistered, setIsRegistered] = useState(false);
@@ -46,11 +47,14 @@ const Register = (props) => {
             });
 
             if (!response.data.token) {
+                // the errors we're displaiyng here are a bit robotic. We could use response.data.message here instead
+                console.log(response.data)
                 setErrorMessage(response.data.error);
             } else {
                 props.setUserToken(response.data.token);
                 window.localStorage.setItem('token', `${response.data.token}`);
                 props.setIsLoggedIn(true);
+                // Do we need to return here?
                 return setIsRegistered(true);
             }
         } catch (err) {
@@ -118,10 +122,12 @@ const Register = (props) => {
                                 onClick={accountRegister}>
                                 Register
                             </button> :
+                            // I'd recommend for this second button to include the "disabled" property. This will disable the button from being pressed 
                             <button
                                 type="register"
                                 className="btn btn-primary"
-                                id='login-buttons'>
+                                id='login-buttons'
+                                disabled>
                                 Register
                             </button>}
 

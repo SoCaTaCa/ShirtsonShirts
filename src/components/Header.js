@@ -7,6 +7,7 @@ const Header = (props) => {
     const Logout = () => {
         window.localStorage.removeItem('token');
         props.setUserToken('');
+        // do we need a return here?
         return props.setIsLoggedIn(false);
     }
 

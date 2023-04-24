@@ -6,6 +6,7 @@ const createCartItem = async ({ cartId, itemId, quantity }) => {
     values: [cartId, itemId, quantity]
   };
 
+  // for consistency across our codebase, we should either adjust this to { rows: [ cartItem ] } or adjust our other sections to match this
   const { rows } = await client.query(query);
   return rows[0];
 };

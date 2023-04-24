@@ -1,4 +1,4 @@
-const { getCurrentCart, getPreviousCarts } = require('../../db/carts');
+const { getCartById, getCurrentCart, getPreviousCarts } = require('../../db/carts');
 const client = require('../../db/client');
 const { rebuildDB, seedDB } = require('../../db/seedData');
 
@@ -6,6 +6,14 @@ const { rebuildDB, seedDB } = require('../../db/seedData');
 const test = async () => {
     console.log('--- RUNNING db/carts TESTS ---');
     try {
+        console.log('Tetsing getCartById');
+        const cart1 = await getCartById(1);
+        if (cart1 && cart1.id === 1) {
+            console.log('passed');
+        } else {
+            console.log('FAILED');
+        };
+
         console.log('Testing getCurrentCart');
         const cart = await getCurrentCart(2);
         if (cart && !cart.isPurchased) {

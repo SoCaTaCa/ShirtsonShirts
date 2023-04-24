@@ -21,7 +21,7 @@ const Header = (props) => {
                     <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
                         <div className="navbar-nav">
                             <Link className="nav-item nav-link" to="/">Home</Link>
-                            <Link className="nav-item nav-link" to="/">Products</Link>
+                            <Link className="nav-item nav-link" to="/products">Products</Link>
                             <Link className="nav-item nav-link" to="/">Orders</Link>
                             <Link className="nav-item nav-link" to="/">Cart</Link>
                             {props.isLoggedIn ? <Link onClick={() => {

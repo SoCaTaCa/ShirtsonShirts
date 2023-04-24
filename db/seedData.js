@@ -1,6 +1,7 @@
 const client = require('./client');
 const { createCategory } = require('./categories');
 const { createUser } = require('./users');
+const { createCart } = require('./carts');
 
 const dropTables = async () => {
     try {
@@ -124,6 +125,25 @@ const createInitialCategories = async () => {
     };
 };
 
+const createInitialCarts = async () => {
+    try {
+        console.log('Creating initial carts...');
+
+        const cartOne = await createCart({ userId: 1 });
+        const cartTwo = await createCart({ userId: 2 });
+        const cartThree = await createCart({ userId: 3 });
+        const cartFour = await createCart({ userId: 4 });
+
+        console.log([cartOne, cartTwo, cartThree, cartFour]);
+
+        console.log('Finsihed creating carts!');
+    } catch (err) {
+        console.log('Error creating initial carts!');
+        console.log(err);
+    };
+};
+
+
 const rebuildDB = async () => {
     try {
         client.connect();
@@ -139,6 +159,7 @@ const seedDB = async () => {
         console.log('Seeding databse...');
         await createInitialCategories();
         await createInitialUsers();
+        await createInitialCarts();
         console.log('Finished seeding database!');
     } catch (error) {
         console.log('Error seeding databse!');

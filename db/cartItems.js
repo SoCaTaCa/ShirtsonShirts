@@ -10,6 +10,20 @@ const createCartItem = async ({ cartId, itemId, quantity }) => {
   return rows[0];
 };
 
+const getCartItemById = async (id) => {
+  try {
+    const query = {
+      text: 'SELECT * FROM cart_items WHERE id = $1',
+      values: [id]
+    };
+
+    const { rows } = await client.query(query);
+    return rows[0];
+  } catch (error) {
+    console.error(error);
+  };
+};
+
 const getCartItemsByCartId = async (cartId) => {
   try {
     const { rows: cartItems } = await client.query(`
@@ -55,6 +69,7 @@ const destroyCartItem = async (id) => {
 
 module.exports = {
   createCartItem,
+  getCartItemById,
   getCartItemsByCartId,
   updateCartItem,
   destroyCartItem

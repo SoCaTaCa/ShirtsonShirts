@@ -1,6 +1,6 @@
 const client = require('../../db/client');
 const { rebuildDB, seedDB } = require('../../db/seedData');
-const { getCartItemsByCartId } = require('../../db/cartItems');
+const { getCartItemsByCartId, updateCartItem } = require('../../db/cartItems');
 
 // Write tests inside of this function.
 const test = async () => {
@@ -12,6 +12,14 @@ const test = async () => {
             console.log('passed');
         } else {
             console.log('FAILED');
+        };
+
+        console.log('Testing updateCartItem');
+        const updatedCartItem = await updateCartItem(1, 100);
+        if (updatedCartItem && updatedCartItem.quantity === 100) {
+            console.log('passed');
+        } else {
+            console.log('FINISHED');
         };
 
     } catch (err) {

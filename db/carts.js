@@ -10,6 +10,21 @@ const createCart = async ({ userId }) => {
   return rows[0];
 };
 
+const purchaseCart = async (id) => {
+  try {
+    const { rows: [cart] } = await client.query(`
+      UPDATE carts
+      SET "isPurchased"=true, "purchaseTime"=CURRENT_TIMESTAMP
+      WHERE id=${id}
+      RETURNING *;
+    `);
+    return cart;
+  } catch (error) {
+    console.error(error);
+  };
+};
+
 module.exports = {
-  createCart
+  createCart,
+  purchaseCart
 };

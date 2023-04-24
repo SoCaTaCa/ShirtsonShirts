@@ -1,7 +1,7 @@
 const client = require('./client');
 const { createCategory } = require('./categories');
 const { createUser } = require('./users');
-const { createCart } = require('./carts');
+const { createCart, purchaseCart } = require('./carts');
 const { createItem } = require('./items');
 const { createCartItem } = require('./cartItems');
 
@@ -53,9 +53,8 @@ const createTables = async () => {
                 id SERIAL PRIMARY KEY,
                 "userId" INTEGER REFERENCES users(id),
                 "isPurchased" BOOLEAN DEFAULT false,
-                purchaseTime TIMESTAMPTZ
+                "purchaseTime" TIMESTAMPTZ
             );
- 
  
             CREATE TABLE cart_items (
                 id SERIAL PRIMARY KEY,
@@ -141,6 +140,22 @@ const createInitialCarts = async () => {
         console.log('Finsihed creating carts!');
     } catch (err) {
         console.log('Error creating initial carts!');
+        console.log(err);
+    };
+};
+
+const updateInitialCarts = async () => {
+    try {
+        console.log('Setting some carts to purchased...');
+
+        const updatedCartOne = await purchaseCart(1);
+        const updatedCartTwo = await purchaseCart(3);
+
+        console.log([updatedCartOne, updatedCartTwo]);
+
+        console.log('Finished updating carts!');
+    } catch (err) {
+        console.log('Error updating carts!');
         console.log(err);
     };
 };
@@ -284,6 +299,7 @@ const seedDB = async () => {
         await createInitialCategories();
         await createInitialUsers();
         await createInitialCarts();
+        await updateInitialCarts();
         await createInitialItems();
         await createInitialCartItems();
         console.log('Finished seeding database!');

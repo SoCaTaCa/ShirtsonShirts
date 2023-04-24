@@ -3,6 +3,7 @@ const { createCategory } = require('./categories');
 const { createUser } = require('./users');
 const { createCart } = require('./carts');
 const { createItem } = require('./items');
+const { createCartItem } = require('./cartItems');
 
 const dropTables = async () => {
     try {
@@ -197,6 +198,75 @@ const createInitialItems = async () => {
     };
 };
 
+const createInitialCartItems = async () => {
+    try {
+        console.log('Creating initial cart_items...');
+
+        const cartItemOne = await createCartItem({
+            cartId: 1,
+            itemId: 3,
+            quantity: 4
+        });
+
+        const cartItemTwo = await createCartItem({
+            cartId: 1,
+            itemId: 4,
+            quantity: 2
+        });
+
+        const cartItemThree = await createCartItem({
+            cartId: 2,
+            itemId: 2,
+            quantity: 2
+        });
+
+        const cartItemFour = await createCartItem({
+            cartId: 2,
+            itemId: 5,
+            quantity: 1
+        });
+
+        const cartItemFive = await createCartItem({
+            cartId: 3,
+            itemId: 4,
+            quantity: 18
+        });
+
+        const cartItemSix = await createCartItem({
+            cartId: 3,
+            itemId: 1,
+            quantity: 7
+        });
+
+        const cartItemSeven = await createCartItem({
+            cartId: 4,
+            itemId: 5,
+            quantity: 3
+        });
+
+        const cartItemEight = await createCartItem({
+            cartId: 4,
+            itemId: 2,
+            quantity: 3
+        });
+
+        console.log([
+            cartItemOne,
+            cartItemTwo,
+            cartItemThree,
+            cartItemFour,
+            cartItemFive,
+            cartItemSix,
+            cartItemSeven,
+            cartItemEight
+        ]);
+
+        console.log('Finished creating cart_items!');
+    } catch (err) {
+        console.log('Error creating cart_items!');
+        console.log(err);
+    };
+};
 
 const rebuildDB = async () => {
     try {
@@ -215,6 +285,7 @@ const seedDB = async () => {
         await createInitialUsers();
         await createInitialCarts();
         await createInitialItems();
+        await createInitialCartItems();
         console.log('Finished seeding database!');
     } catch (error) {
         console.log('Error seeding databse!');

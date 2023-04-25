@@ -11,6 +11,20 @@ const createCart = async ({ userId }) => {
   return rows[0];
 };
 
+const getCartById = async (id) => {
+  try {
+    const query = {
+      text: 'SELECT * FROM carts WHERE id = $1',
+      values: [id]
+    };
+
+    const { rows } = await client.query(query);
+    return rows[0];
+  } catch (error) {
+    console.error(error);
+  };
+};
+
 const purchaseCart = async (id) => {
   try {
     const { rows: [cart] } = await client.query(`
@@ -67,6 +81,7 @@ const getPreviousCarts = async (userId) => {
 
 module.exports = {
   createCart,
+  getCartById,
   purchaseCart,
   getCurrentCart,
   getPreviousCarts

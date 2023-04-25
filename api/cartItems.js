@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { requireUser } = require('./utils');
-const { getCartItemById, updateCartItem, createCartItem } = require("../db/cartItems");
+const { getCartItemById, updateCartItem, createCartItem, destroyCartItem } = require("../db/cartItems");
 const { getCartById, getCurrentCart, createCart } = require('../db/carts');
 
 router.patch('/:cartItemId', requireUser, async (req, res) => {
@@ -30,7 +30,7 @@ router.patch('/:cartItemId', requireUser, async (req, res) => {
             } else {
                 res.send({
                     success: false,
-                    error: 'UnauthorizedUserError',
+                    error: 'UnauthorizedUpdateError',
                     message: 'You can not modify an item in a cart that is not yours!'
                 });
             };
@@ -70,5 +70,43 @@ router.post('/', requireUser, async (req, res) => {
     };
 });
 
+router.delete('/:cartItemId', requireUser, async (req, res) => {
+    const { cartItemId } = req.params;
+    try {
+        const cartItem = await getCartItemById(cartItemId);
+        if (cartItem) {
+            const cart = await getCartById(cartItem.cartId);
+            if (cart.userId === req.user.id) {
+                if (cart.isPurchased) {
+                    res.send({
+                        success: false,
+                        error: 'CartAlreadyPurchased',
+                        message: 'You can not remove an item from a previous order!'
+                    });
+                } else {
+                    const deletedCartItem = await destroyCartItem(cartItemId);
+                    res.send({
+                        success: true,
+                        deletedCartItem
+                    });
+                }
+            } else {
+                res.send({
+                    success: false,
+                    error: 'UnauthorizedDeleteError',
+                    message: 'You do not have permission to remove this item!'
+                });
+            };
+        } else {
+            res.send({
+                success: false,
+                error: 'InvalidCartItemId',
+                message: `Can not find a cart item with id ${cartItemId}`
+            });
+        }
+    } catch (error) {
+        console.error(error);
+    };
+});
 
 module.exports = router;

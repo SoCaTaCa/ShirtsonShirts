@@ -53,7 +53,7 @@ const test = async () => {
             });
 
         if (goodResponse.body.cartItem.quantity === 100 &&
-            badResponseOne.body.error === 'UnauthorizedUserError' &&
+            badResponseOne.body.error === 'UnauthorizedUpdateError' &&
             badResponseTwo.body.error === 'CartAlreadyPurchased' &&
             badResponseThree.body.error === 'InvalidCartItemId') {
             console.log('passed');
@@ -81,6 +81,32 @@ const test = async () => {
         if (currentCartResponse.body.cartItem.itemId === 1 &&
             noCurrentCartResponse.body.cartItem.itemId === 3 &&
             noCurrentCartResponse.body.cartItem.cartId === 5) {
+            console.log('passed');
+        } else {
+            console.log('FAILED');
+        };
+
+        console.log('Testing delete to /:cartItemId');
+        const goodDeleteResponse = await request(app)
+            .delete('/api/cartItems/3')
+            .set('Authorization', `Bearer ${tokenOne}`);
+
+        const badDeleteResponseOne = await request(app)
+            .delete('/api/cartItems/2')
+            .set('Authorization', `Bearer ${tokenOne}`);
+
+        const badDeleteResponseTwo = await request(app)
+            .delete('/api/cartItems/2')
+            .set('Authorization', `Bearer ${tokenTwo}`);
+
+        const badDeleteResponseThree = await request(app)
+            .delete('/api/cartItems/200')
+            .set('Authorization', `Bearer ${tokenTwo}`);
+
+        if (goodDeleteResponse.body.deletedCartItem.id === 3 &&
+            badDeleteResponseOne.body.error === 'UnauthorizedDeleteError' &&
+            badDeleteResponseTwo.body.error === 'CartAlreadyPurchased' &&
+            badDeleteResponseThree.body.error === 'InvalidCartItemId') {
             console.log('passed');
         } else {
             console.log('FAILED');

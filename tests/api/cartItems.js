@@ -61,6 +61,31 @@ const test = async () => {
             console.log('FAILED');
         };
 
+        console.log('Testing post to /');
+        const currentCartResponse = await request(app)
+            .post('/api/cartItems')
+            .set('Authorization', `Bearer ${tokenOne}`)
+            .send({
+                itemId: 1,
+                quantity: 2
+            });
+
+        const noCurrentCartResponse = await request(app)
+            .post('/api/cartItems')
+            .set('Authorization', `Bearer ${tokenTwo}`)
+            .send({
+                itemId: 3,
+                quantity: 2
+            });
+
+        if (currentCartResponse.body.cartItem.itemId === 1 &&
+            noCurrentCartResponse.body.cartItem.itemId === 3 &&
+            noCurrentCartResponse.body.cartItem.cartId === 5) {
+            console.log('passed');
+        } else {
+            console.log('FAILED');
+        };
+
     } catch (err) {
         console.log('Error runnning tests!', err);
     };

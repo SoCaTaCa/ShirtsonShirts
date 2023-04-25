@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const { requireUser } = require('./utils');
-const { getCartItemById, updateCartItem } = require("../db/cartItems");
-const { getCartById } = require('../db/carts');
+const { getCartItemById, updateCartItem, createCartItem } = require("../db/cartItems");
+const { getCartById, getCurrentCart, createCart } = require('../db/carts');
 
 router.patch('/:cartItemId', requireUser, async (req, res) => {
     const { cartItemId } = req.params;
@@ -45,8 +45,30 @@ router.patch('/:cartItemId', requireUser, async (req, res) => {
     } catch (error) {
         console.error(error);
     };
+});
 
-})
+router.post('/', requireUser, async (req, res) => {
+    const { itemId, quantity } = req.body;
+    try {
+        let currentCart = await getCurrentCart(req.user.id);
+        if (!currentCart) {
+            currentCart = await createCart({ userId: req.user.id });
+        };
+        const cartItem = await createCartItem({
+            cartId: currentCart.id,
+            itemId,
+            quantity
+        });
+        if (cartItem) {
+            res.send({
+                success: true,
+                cartItem
+            });
+        };
+    } catch (error) {
+        console.error(error);
+    };
+});
 
 
 module.exports = router;

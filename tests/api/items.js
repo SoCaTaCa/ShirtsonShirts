@@ -12,8 +12,7 @@ const test = async () => {
     const testGetApiItems = async () => {
       console.log("testing get /api/items");
       response = await request(app).get("/api/items");
-      console.log("RESPONSE", response);
-      if (typeof response.body === "object" && response.body.length === 5) {
+      if (response.body.success === true && response.body.items.length === 5) {
         console.log("passed");
       } else {
         console.log("FAILED");
@@ -28,10 +27,9 @@ const test = async () => {
         categoryId: 1,
         description: "shirt",
       });
-      console.log("RESPONSE", response.body);
       if (
-        typeof response.body === "object" &&
-        response.body.name === "newitem"
+        response.body.success === true &&
+        response.body.item.name === "newitem"
       ) {
         console.log("passed");
       } else {
@@ -47,10 +45,9 @@ const test = async () => {
         categoryId: 1,
         description: "shirt",
       });
-      console.log("RESPONSE", response.body);
       if (
-        typeof response.body === "object" &&
-        response.body.name === "newitem2"
+        response.body.success === true &&
+        response.body.item.name === "newitem2"
       ) {
         console.log("passed");
       } else {
@@ -60,8 +57,7 @@ const test = async () => {
     const testGetApiItemsItemid = async () => {
       console.log("testing get /api/items/:itemid");
       response = await request(app).get("/api/items/1");
-      console.log("RESPONSE", response.body);
-      if (typeof response.body === "object" && response.body.id === 1) {
+      if (response.body.success === true && response.body.item.id === 1) {
         console.log("passed");
       } else {
         console.log("FAILED");
@@ -71,7 +67,7 @@ const test = async () => {
       console.log("testing delete /api/items/:itemid");
       response = await request(app).delete("/api/items/1");
       console.log("RESPONSE", response.body);
-      if (typeof response.body === "object" && response.body.id === null) {
+      if (response.body.success === true && response.body.item.id === 1) {
         console.log("passed");
       } else {
         console.log("FAILED");
@@ -80,18 +76,17 @@ const test = async () => {
     const testGetApiItemsCategory = async () => {
       console.log("testing get /api/items/category/:categoryid");
       response = await request(app).get("/api/items/category/1");
-      console.log("RESPONSE", response.body);
-      if (typeof response.body === "object" && response.body.category) {
+      if (response.body.success === true && response.body.items.length === 3) {
         console.log("passed");
       } else {
         console.log("FAILED");
       }
     };
     const testGetApiItemsName = async () => {
-      console.log("testing get /api/items/:itemname");
-      response = await request(app).get("/api/items/1");
+      console.log("testing get /api/items/name/:itemname");
+      response = await request(app).get("/api/items/name/Red%20SoCaTaCa%20Tee");
       console.log("RESPONSE", response.body);
-      if (typeof response.body === "object" && response.body.name) {
+      if (response.body.success === true && response.body.items.length === 3) {
         console.log("passed");
       } else {
         console.log("FAILED");
@@ -100,10 +95,11 @@ const test = async () => {
 
     await testGetApiItems();
     await testPostApiItems();
-    // await testPatchApiItems();
+    await testPatchApiItems();
     await testGetApiItemsItemid();
-    // await testDeleteApiItemsItemid();
     await testGetApiItemsCategory();
+    // await testDeleteApiItemsItemid();
+    await testGetApiItemsName();
   } catch (err) {
     console.log("Error runnning tests!", err);
   }

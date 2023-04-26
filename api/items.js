@@ -5,7 +5,7 @@ const {
   getAllItems,
   getItemById,
   getItemsByName,
-  getItemsByCategories,
+  getItemsByCategory,
   updateItem,
   destroyItem,
 } = require("../db/items");
@@ -29,7 +29,7 @@ router.get("/", async (req, res) => {
 // POST/api/items
 router.post("/", async (req, res) => {
   try {
-    const items = await createItem();
+    const items = await createItem(req.body);
     if (items) {
       res.send({
         success: true,
@@ -47,7 +47,7 @@ router.post("/", async (req, res) => {
 router.patch("/", async (req, res) => {
   const { name } = req.body;
   try {
-    const item = await updateItem(name);
+    const item = await updateItem(req.body.name);
     if (item) {
       res.send({
         success: true,
@@ -63,8 +63,9 @@ router.patch("/", async (req, res) => {
 
 // GET /api/items/:itemid
 router.get("/:itemid", async (req, res) => {
+  const { id } = req.params.itemid;
   try {
-    const item = await getItemById();
+    const item = await getItemById(id);
     if (item) {
       res.send({
         success: true,
@@ -80,9 +81,9 @@ router.get("/:itemid", async (req, res) => {
 
 // DELETE /api/items/:itemid
 router.delete("/:itemid", async (req, res) => {
-  const { name } = req.body;
+  const { id } = req.params.itemid;
   try {
-    const item = await destroyItem(name);
+    const item = await destroyItem(id);
     if (!item) {
       res.send({
         success: true,
@@ -97,9 +98,27 @@ router.delete("/:itemid", async (req, res) => {
 });
 
 // GET /api/items/:categories
-router.get("/:categories", async (req, res) => {
+router.get("/category/:categoryid", async (req, res) => {
   try {
-    const items = await getItemsByCategories();
+    const items = await getItemsByCategory();
+    if (items) {
+      res.send({
+        success: true,
+        items,
+      });
+    } else {
+      res.send({ success: false });
+    }
+  } catch (error) {
+    console.error(error);
+  }
+});
+
+// GET /api/items/:itemname
+router.get("/name/:itemname", async (req, res) => {
+  const { name } = req.body.name;
+  try {
+    const items = await getItemsByName(name);
     if (items) {
       res.send({
         success: true,

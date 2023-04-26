@@ -48,6 +48,7 @@ const Register = (props) => {
             if (!response.data.token) {
                 setErrorMessage(response.data.error);
             } else {
+                props.setUserID(response.data.user.id);
                 props.setUserToken(response.data.token);
                 window.localStorage.setItem('token', `${response.data.token}`);
                 props.setIsLoggedIn(true);

@@ -31,7 +31,7 @@ const getItemById = async (id) => {
 
 const getItemsByCategory = async (categoryId) => {
   const query = {
-    text: 'SELECT * FROM items WHERE category_id = $1',
+    text: 'SELECT * FROM items WHERE categoryId = $1',
     values: [categoryId],
   };
 

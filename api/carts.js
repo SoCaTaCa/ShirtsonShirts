@@ -1,6 +1,6 @@
 const express = require("express");
-const { requireUser, requireAdmin } = require("./utils");
-const { getCurrentCart, getPreviousCarts } = require("../db/carts");
+const { requireUser } = require("./utils");
+const { getCurrentCart, getPreviousCarts, purchaseCart } = require("../db/carts");
 const router = express.Router();
 
 router.get("/:userId/current", requireUser, async (req, res) => {
@@ -38,7 +38,7 @@ router.get("/:userId/previous", requireUser, async (req, res) => {
 });
 
 router.patch("/:cartId", requireUser, async (req, res) => {
-  const { userId, isPurchaced } = req.body;
+  const { userId } = req.body;
   try {
     const cart = await purchaseCart(userId);
     if (cart) {

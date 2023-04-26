@@ -1,4 +1,5 @@
 const express = require("express");
+const { destroyCartItem, getCartItemsByItemId } = require("../db/cartItems");
 const router = express.Router();
 const {
   createItem,
@@ -29,11 +30,11 @@ router.get("/", async (req, res) => {
 // POST/api/items
 router.post("/", async (req, res) => {
   try {
-    const items = await createItem(req.body);
-    if (items) {
+    const item = await createItem(req.body);
+    if (item) {
       res.send({
         success: true,
-        items,
+        item,
       });
     } else {
       res.send({ success: false });
@@ -44,10 +45,18 @@ router.post("/", async (req, res) => {
 });
 
 // PATCH /api/items
-router.patch("/", async (req, res) => {
-  const { name } = req.body;
+router.patch("/:itemid", async (req, res) => {
+  const { name, price, size, categoryId, description } = req.body;
+  const { itemid } = req.params;
   try {
-    const item = await updateItem(req.body.name);
+    const item = await updateItem({
+      id: itemid,
+      name,
+      price,
+      size,
+      categoryId,
+      description,
+    });
     if (item) {
       res.send({
         success: true,
@@ -63,9 +72,9 @@ router.patch("/", async (req, res) => {
 
 // GET /api/items/:itemid
 router.get("/:itemid", async (req, res) => {
-  const { id } = req.params.itemid;
+  const { itemid } = req.params;
   try {
-    const item = await getItemById(id);
+    const item = await getItemById(itemid);
     if (item) {
       res.send({
         success: true,
@@ -81,10 +90,14 @@ router.get("/:itemid", async (req, res) => {
 
 // DELETE /api/items/:itemid
 router.delete("/:itemid", async (req, res) => {
-  const { id } = req.params.itemid;
+  const { itemid } = req.params;
   try {
-    const item = await destroyItem(id);
-    if (!item) {
+    const cartitems = await getCartItemsByItemId(itemid);
+    for (let i = 0; i < cartitems.length; i++) {
+      await destroyCartItem(cartitems[i].id);
+    }
+    const item = await destroyItem(itemid);
+    if (item) {
       res.send({
         success: true,
         item,
@@ -99,8 +112,9 @@ router.delete("/:itemid", async (req, res) => {
 
 // GET /api/items/:categories
 router.get("/category/:categoryid", async (req, res) => {
+  const { categoryid } = req.params;
   try {
-    const items = await getItemsByCategory();
+    const items = await getItemsByCategory(categoryid);
     if (items) {
       res.send({
         success: true,
@@ -116,9 +130,9 @@ router.get("/category/:categoryid", async (req, res) => {
 
 // GET /api/items/:itemname
 router.get("/name/:itemname", async (req, res) => {
-  const { name } = req.body.name;
+  const { itemname } = req.params;
   try {
-    const items = await getItemsByName(name);
+    const items = await getItemsByName(itemname);
     if (items) {
       res.send({
         success: true,

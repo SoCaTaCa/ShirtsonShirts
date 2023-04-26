@@ -3,7 +3,8 @@ const { requireUser, requireAdmin } = require("./utils");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 
-const { getUser, getUserByUsername, createUser } = require("../db/users");
+const { getUser, getUserByUsername, getUserById, createUser } = require('../db/users');
+const { requireUser } = require('./utils');
 
 router.post("/login", async (req, res) => {
   const { username, password } = req.body;
@@ -85,6 +86,15 @@ router.post("/register", async (req, res) => {
   } catch (error) {
     console.error(error);
   }
+});
+
+router.get('/me', requireUser, async (req, res) => {
+    try {
+        const user = await getUserById(req.user.id);
+        res.send(user);
+    } catch (error) {
+        console.log(error);
+    };
 });
 
 module.exports = router;

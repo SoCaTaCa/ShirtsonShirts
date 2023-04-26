@@ -29,6 +29,7 @@ const Login = (props) => {
             if (!response.data.success) {
                 return setErrorMessage(response.data.message);
             } else {
+                props.setUserID(response.data.user.id);
                 props.setUserToken(response.data.token);
                 window.localStorage.setItem('token', `${response.data.token}`);
                 return props.setIsLoggedIn(true);

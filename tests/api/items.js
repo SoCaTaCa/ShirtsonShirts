@@ -74,7 +74,6 @@ const test = async () => {
       }
     };
     const testGetApiItemsCategory = async () => {
-      console.log("testing get /api/items/category/:categoryid");
       response = await request(app).get("/api/items/category/1");
       if (response.body.success === true && response.body.items.length === 3) {
         console.log("passed");
@@ -85,7 +84,6 @@ const test = async () => {
     const testGetApiItemsName = async () => {
       console.log("testing get /api/items/name/:itemname");
       response = await request(app).get("/api/items/name/Red%20SoCaTaCa%20Tee");
-      console.log("RESPONSE", response.body);
       if (response.body.success === true && response.body.items.length === 2) {
         console.log("passed");
       } else {
@@ -98,7 +96,7 @@ const test = async () => {
     await testPatchApiItems();
     await testGetApiItemsItemid();
     await testGetApiItemsCategory();
-    // await testDeleteApiItemsItemid();
+    await testDeleteApiItemsItemid();
     await testGetApiItemsName();
   } catch (err) {
     console.log("Error runnning tests!", err);

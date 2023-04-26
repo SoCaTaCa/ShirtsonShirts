@@ -49,10 +49,27 @@ const getItemsByName = async (name) => {
   return rows;
 };
 
+const destroyItem = async (id) => {
+  const deleteQuery = {
+    text: 'DELETE FROM user_items WHERE item_id = $1',
+    values: [id],
+  };
+  await client.query(deleteQuery);
+
+  const query = {
+    text: 'DELETE FROM items WHERE id = $1 RETURNING *',
+    values: [id],
+  };
+
+  const { rows } = await client.query(query);
+  return rows[0];
+};
+
 module.exports = {
   createItem,
   getAllItems,
   getItemById,
   getItemsByCategory,
   getItemsByName,
+  destroyItem,
 };

@@ -1,6 +1,6 @@
 const client = require('../../db/client');
 const { rebuildDB, seedDB } = require('../../db/seedData');
-const { getCartItemById, getCartItemsByCartId, updateCartItem, destroyCartItem } = require('../../db/cartItems');
+const { getCartItemById, getCartItemsByCartId, updateCartItem, destroyCartItem, getCartItemsByItemId } = require('../../db/cartItems');
 
 // Write tests inside of this function.
 const test = async () => {
@@ -15,7 +15,7 @@ const test = async () => {
         };
 
         console.log('Testing getCartItemsByCartId')
-        const cartItems = await getCartItemsByCartId(1);
+        let cartItems = await getCartItemsByCartId(1);
         if (cartItems && cartItems.length === 2 && cartItems[0].name && cartItems[0].size) {
             console.log('passed');
         } else {
@@ -33,6 +33,14 @@ const test = async () => {
         console.log('Testing destroyCartItem');
         const deletedCartItem = await destroyCartItem(updatedCartItem.id);
         if (deletedCartItem && deletedCartItem.id === updatedCartItem.id) {
+            console.log('passed');
+        } else {
+            console.log('FAILED');
+        };
+
+        console.log('Testing getCartItemsByItemId');
+        cartItems = await getCartItemsByItemId(2);
+        if (cartItems && cartItems.length === 2) {
             console.log('passed');
         } else {
             console.log('FAILED');

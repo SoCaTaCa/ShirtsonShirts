@@ -10,6 +10,7 @@ const {
   updateItem,
   destroyItem,
 } = require("../db/items");
+const { requireUser, requireAdmin } = require('./utils');
 
 // GET /api/items
 router.get("/", async (req, res) => {
@@ -28,7 +29,7 @@ router.get("/", async (req, res) => {
   }
 });
 // POST/api/items
-router.post("/", async (req, res) => {
+router.post("/", requireUser, requireAdmin, async (req, res) => {
   try {
     const item = await createItem(req.body);
     if (item) {
@@ -45,7 +46,7 @@ router.post("/", async (req, res) => {
 });
 
 // PATCH /api/items
-router.patch("/:itemid", async (req, res) => {
+router.patch("/:itemid", requireUser, requireAdmin, async (req, res) => {
   const { name, price, size, categoryId, description } = req.body;
   const { itemid } = req.params;
   try {
@@ -89,7 +90,7 @@ router.get("/:itemid", async (req, res) => {
 });
 
 // DELETE /api/items/:itemid
-router.delete("/:itemid", async (req, res) => {
+router.delete("/:itemid", requireUser, requireAdmin, async (req, res) => {
   const { itemid } = req.params;
   try {
     const cartitems = await getCartItemsByItemId(itemid);

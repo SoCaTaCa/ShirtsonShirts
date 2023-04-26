@@ -66,7 +66,6 @@ const test = async () => {
     const testDeleteApiItemsItemid = async () => {
       console.log("testing delete /api/items/:itemid");
       response = await request(app).delete("/api/items/1");
-      console.log("RESPONSE", response.body);
       if (response.body.success === true && response.body.item.id === 1) {
         console.log("passed");
       } else {

@@ -31,7 +31,7 @@ const getItemById = async (id) => {
 
 const getItemsByCategory = async (categoryId) => {
   const query = {
-    text: 'SELECT * FROM items WHERE categoryId = $1',
+    text: 'SELECT * FROM items WHERE "categoryId" = $1',
     values: [categoryId],
   };
 
@@ -60,7 +60,6 @@ const updateItem = async ({ id, name, price, size, categoryId, description }) =>
 };
 
 const destroyItem = async (id) => {
-  await client.query('DELETE FROM user_items WHERE item_id = $1', [id]);
   const query = {
     text: 'DELETE FROM items WHERE id = $1 RETURNING *',
     values: [id],

@@ -33,7 +33,7 @@ const Cart = (props) => {
             {
                 (Object.keys(cart).length) ?
                     cart.items.map((item, idx) => {
-                        return <SingleCartItem item={item} key={idx} />
+                        return <SingleCartItem item={item} userToken={props.userToken} key={idx} />
                     }) :
                     null
             }

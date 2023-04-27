@@ -1,17 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import SingleCartItem from './SingleCartItem';
 
 const Cart = (props) => {
-    const [cart, setCart] = useState([]);
 
-    async function getCart() {
+    // Update route in index.js so that userToken is also being passed down
+
+    const [cart, setCart] = useState({});
+
+    const getCart =  async () =>{
         const userID = props.userID;
-
         try {
-            const response = await axios.get(`/api/carts/${userID}/current`);
-            setCart(response.data);
-            console.log(response);
-
+            const response = await axios.get(`/api/carts/${userID}/current`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${props.userToken}`
+                }
+            });
+            setCart(response.data.cart);
         }
         catch (err) {
             console.error(err);
@@ -24,7 +30,13 @@ const Cart = (props) => {
 
     return (
         <>
-            <h1>User Cart</h1>
+            {
+                (Object.keys(cart).length) ?
+                    cart.items.map((item, idx) => {
+                        return <SingleCartItem item={item} key={idx} />
+                    }) :
+                    null
+            }
         </>
     )
 }

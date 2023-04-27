@@ -47,7 +47,7 @@ router.post("/", requireUser, requireAdmin, async (req, res) => {
 
 // PATCH /api/items
 router.patch("/:itemid", requireUser, requireAdmin, async (req, res) => {
-  const { name, price, size, categoryId, description } = req.body;
+  const { name, price, size, categoryId, description, imageURL } = req.body;
   const { itemid } = req.params;
   try {
     const item = await updateItem({
@@ -57,6 +57,7 @@ router.patch("/:itemid", requireUser, requireAdmin, async (req, res) => {
       size,
       categoryId,
       description,
+      imageURL
     });
     if (item) {
       res.send({

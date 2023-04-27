@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { requireUser } = require('./utils');
-const { getCartItemById, updateCartItem, createCartItem, destroyCartItem } = require("../db/cartItems");
+const { getCartItemById, updateCartItem, createCartItem, destroyCartItem, getCartItem } = require("../db/cartItems");
 const { getCartById, getCurrentCart, createCart } = require('../db/carts');
 
 router.patch('/:cartItemId', requireUser, async (req, res) => {
@@ -54,16 +54,26 @@ router.post('/', requireUser, async (req, res) => {
         if (!currentCart) {
             currentCart = await createCart({ userId: req.user.id });
         };
-        const cartItem = await createCartItem({
-            cartId: currentCart.id,
-            itemId,
-            quantity
-        });
-        if (cartItem) {
+
+        const _cartItem = await getCartItem({ cartId: currentCart.id, itemId: itemId });
+        if (_cartItem) {
             res.send({
-                success: true,
-                cartItem
+                success: false,
+                error: 'CartItemAlreadyExists',
+                message: 'That item is already in your cart!'
             });
+        } else {
+            const cartItem = await createCartItem({
+                cartId: currentCart.id,
+                itemId,
+                quantity
+            });
+            if (cartItem) {
+                res.send({
+                    success: true,
+                    cartItem
+                });
+            };
         };
     } catch (error) {
         console.error(error);

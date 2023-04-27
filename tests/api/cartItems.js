@@ -78,9 +78,18 @@ const test = async () => {
                 quantity: 2
             });
 
+        const existingCartItemResponse = await request(app)
+            .post('/api/cartItems')
+            .set('Authorization', `Bearer ${tokenOne}`)
+            .send({
+                itemId: 1,
+                quantity: 2
+            });
+
         if (currentCartResponse.body.cartItem.itemId === 1 &&
             noCurrentCartResponse.body.cartItem.itemId === 3 &&
-            noCurrentCartResponse.body.cartItem.cartId === 5) {
+            noCurrentCartResponse.body.cartItem.cartId === 5 &&
+            existingCartItemResponse.body.error === 'CartItemAlreadyExists') {
             console.log('passed');
         } else {
             console.log('FAILED');

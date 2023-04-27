@@ -8,6 +8,21 @@ const test = async () => {
   console.log("--- RUNNING api/items TESTS ---");
   try {
     let response = null;
+    const adminLoginResponse = await request(app)
+      .post('/api/users/login')
+      .send({
+        username: 'cdoussan',
+        password: 'apples45'
+      });
+    const adminToken = adminLoginResponse.body.token;
+
+    const userLoginResponse = await request(app)
+      .post('/api/users/login')
+      .send({
+        username: 'tredding',
+        password: 'slushies89'
+      });
+    const userToken = userLoginResponse.body.token;
 
     const testGetApiItems = async () => {
       console.log("testing get /api/items");
@@ -20,7 +35,7 @@ const test = async () => {
     };
     const testPostApiItems = async () => {
       console.log("testing post /api/items");
-      response = await request(app).post("/api/items").send({
+      response = await request(app).post("/api/items").set('Authorization', `Bearer ${adminToken}`).send({
         name: "newitem",
         price: 0,
         size: "XXXXL",
@@ -38,7 +53,7 @@ const test = async () => {
     };
     const testPatchApiItems = async () => {
       console.log("testing patch /api/items");
-      response = await request(app).patch("/api/items/1").send({
+      response = await request(app).patch("/api/items/1").set('Authorization', `Bearer ${adminToken}`).send({
         name: "newitem2",
         price: 0,
         size: "XXXXL",
@@ -65,7 +80,7 @@ const test = async () => {
     };
     const testDeleteApiItemsItemid = async () => {
       console.log("testing delete /api/items/:itemid");
-      response = await request(app).delete("/api/items/1");
+      response = await request(app).delete("/api/items/1").set('Authorization', `Bearer ${adminToken}`);
       if (response.body.success === true && response.body.item.id === 1) {
         console.log("passed");
       } else {

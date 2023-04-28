@@ -32,8 +32,12 @@ const Cart = (props) => {
         <>
             {
                 (Object.keys(cart).length) ?
-                    cart.items.map((item, idx) => {
-                        return <SingleCartItem item={item} userToken={props.userToken} key={idx} />
+                    cart.items.map((item) => {
+                        return <SingleCartItem
+                            item={item}
+                            userToken={props.userToken}
+                            getCart={getCart}
+                            key={item.cartItemId} />
                     }) :
                     null
             }

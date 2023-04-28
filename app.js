@@ -16,6 +16,7 @@ app.use("/api", apiRouter);
 app.use(cors());
 
 app.use("/dist", express.static(path.join(__dirname, "dist")));
+app.use("/images", express.static(path.join(__dirname, "images")));
 
 app.use("/style.css", express.static(path.join(__dirname, "style.css")));
 

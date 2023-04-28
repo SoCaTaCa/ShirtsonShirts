@@ -44,7 +44,7 @@ const createTables = async () => {
                 size VARCHAR(10) NOT NULL,
                 "categoryId" INTEGER REFERENCES categories(id),
                 description TEXT NOT NULL,
-                "imageURL" TEXT,
+                "imageURL" TEXT NOT NULL,
                 price INTEGER NOT NULL,
                 UNIQUE (name, size)
             );
@@ -169,7 +169,8 @@ const createInitialItems = async () => {
             price: '500',
             size: 'S',
             categoryId: 1,
-            description: 'Red dyed cotton blend tee-shirt with the SoCaTaCa team logo'
+            description: 'Red dyed cotton blend tee-shirt with the SoCaTaCa team logo',
+            imageURL: './images/default_shirt.png'
         });
 
         const itemTwo = await createItem({
@@ -177,7 +178,8 @@ const createInitialItems = async () => {
             price: '500',
             size: 'M',
             categoryId: 3,
-            description: 'Red dyed cotton blend tee-shirt with the SoCaTaCa team logo'
+            description: 'Red dyed cotton blend tee-shirt with the SoCaTaCa team logo',
+            imageURL: './images/default_shirt.png'
         });
 
         const itemThree = await createItem({
@@ -185,7 +187,8 @@ const createInitialItems = async () => {
             price: '500',
             size: 'L',
             categoryId: 1,
-            description: 'Red dyed cotton blend tee-shirt with the SoCaTaCa team logo'
+            description: 'Red dyed cotton blend tee-shirt with the SoCaTaCa team logo',
+            imageURL: './images/default_shirt.png'
         });
 
         const itemFour = await createItem({
@@ -193,7 +196,8 @@ const createInitialItems = async () => {
             price: '300',
             size: 'M',
             categoryId: 2,
-            description: 'Blue dyed cotton blend tank-top'
+            description: 'Blue dyed cotton blend tank-top',
+            imageURL: './images/default_shirt.png'
         });
 
         const itemFive = await createItem({
@@ -201,7 +205,8 @@ const createInitialItems = async () => {
             price: '500',
             size: 'L',
             categoryId: 3,
-            description: 'Multicolored cotton blend long-sleeve shirt, perfect for cool weather!'
+            description: 'Multicolored cotton blend long-sleeve shirt, perfect for cool weather!',
+            imageURL: './images/default_shirt.png'
         });
 
         console.log([itemOne, itemTwo, itemThree, itemFour, itemFive]);

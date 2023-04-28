@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
 
-const NewItemForm = ({ userToken }) => {
+const EditItemForm = ({ userToken }) => {
 
     // Add the following lines to index.js
-    // import NewItemForm from './components/NewItemForm.js';
-    // <Route path='/products/new' element={<NewItemForm userToken={userToken}/>}></Route>
-    
+    // import EditItemForm from './components/EditItemForm.js';
+    // <Route path='/products/edit/:itemId' element={<EditItemForm userToken={userToken}/>}></Route>
+
+    const [item, setItem] = useState({});
     const [name, setName] = useState('');
     const [size, setSize] = useState('');
     const [categoryId, setCategoryId] = useState(0);
@@ -14,6 +16,32 @@ const NewItemForm = ({ userToken }) => {
     const [imageURL, setImageURL] = useState('');
     const [price, setPrice] = useState(0);
     const [categories, setCategories] = useState([]);
+
+    const { itemId } = useParams();
+
+    const getItemData = async () => {
+        try {
+            const itemResponse = await axios.get(`/api/items/${itemId}`);
+            setItem(itemResponse.data.item);
+        } catch (error) {
+            console.error(error);
+        };
+    };
+
+    const setValues = () => {
+        if (item && Object.keys(item).length) {
+            setName(item.name)
+            setSize(item.size);
+            setCategoryId(item.categoryId);
+            setDescription(item.description);
+            setPrice(item.price);
+            setImageURL(item.imageURL);
+
+            if (item.imageURL) {
+                setImageURL(item.imageURL);
+            };
+        };
+    };
 
     useEffect(() => {
         const getCategories = async () => {
@@ -26,13 +54,30 @@ const NewItemForm = ({ userToken }) => {
                 console.error(error);
             };
         };
+
         getCategories();
+        getItemData();
+        setValues();
     }, []);
 
-    const createNewItem = async (event) => {
-        event.preventDefault();
+    useEffect(() => {
+        setValues();
+    }, [item]);
 
-        const newItemData = {
+    const updateItem = async (event) => {
+        event.preventDefault();
+        if (item) {
+            if (name === item.name &&
+                size === item.size &&
+                description === item.description &&
+                categoryId === item.categoryId &&
+                price === item.price &&
+                imageURL === item.imageURL) {
+                return;
+            };
+        };
+
+        const updatedItemData = {
             name,
             size,
             description,
@@ -41,25 +86,21 @@ const NewItemForm = ({ userToken }) => {
             imageURL
         };
 
-        const newItem = await axios.post('/api/items', newItemData, {
+        const updatedItem = await axios.patch(`/api/items/${itemId}`, updatedItemData, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${userToken}`
             }
         });
 
-        if (newItem) {
-            setName('');
-            setSize('');
-            setDescription('');
-            setCategoryId(0);
-            setImageURL('');
-            setPrice('');
+        if (updatedItem) {
+            getItemData();
+            setValues();
         };
     };
 
     return (
-        <form onSubmit={createNewItem}>
+        <form onSubmit={updateItem}>
             <div className='mb-3'>
                 <label htmlFor='item-name' className='form-label'>Item Name *</label>
                 <input
@@ -133,9 +174,9 @@ const NewItemForm = ({ userToken }) => {
                     name && description && price && categoryId && description ?
                         false :
                         true
-                }>Create New Item</button>
+                }>Update Item</button>
         </form>
-    );
+    )
 };
 
-export default NewItemForm;
+export default EditItemForm;

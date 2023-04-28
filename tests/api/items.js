@@ -41,6 +41,7 @@ const test = async () => {
         size: "XXXXL",
         categoryId: 1,
         description: "shirt",
+        imageURL: 'image.png'
       });
       if (
         response.body.success === true &&
@@ -59,6 +60,7 @@ const test = async () => {
         size: "XXXXL",
         categoryId: 1,
         description: "shirt",
+        imageURL: 'image.png'
       });
       if (
         response.body.success === true &&

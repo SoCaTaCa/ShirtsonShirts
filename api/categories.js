@@ -1,7 +1,7 @@
 const express = require("express");
 const { requireUser, requireAdmin } = require("./utils");
 const router = express.Router();
-const { getAllCategories, createCategory } = require("../db/categories");
+const { getAllCategories, createCategory, getCategoryByName } = require("../db/categories");
 
 router.get("/", async (req, res) => {
   try {
@@ -34,6 +34,27 @@ router.post("/", requireUser, requireAdmin, async (req, res) => {
   } catch (error) {
     console.error(error);
   }
+});
+
+router.get("/:categoryName", async (req, res) => {
+  const { categoryName } = req.params;
+  try {
+    const category = await getCategoryByName(categoryName);
+    if (category) {
+      res.send({
+        success: true,
+        category,
+      });
+    } else {
+      res.send({
+        success: false,
+        error: 'CategoryDoesNotExist',
+        message: `The category \"${categoryName}\" does not exist!`
+      });
+    };
+  } catch (error) {
+    console.error(error);
+  };
 });
 
 module.exports = router;

@@ -1,6 +1,6 @@
 const client = require('../../db/client');
 const { rebuildDB, seedDB } = require('../../db/seedData');
-const { createCategory, getAllCategories } = require('../../db/categories');
+const { createCategory, getAllCategories, getCategoryByName } = require('../../db/categories');
 
 // Write tests inside of this function.
 const test = async () => {
@@ -17,6 +17,14 @@ const test = async () => {
         console.log('Testing getAllCategories');
         const categories = await getAllCategories();
         if (typeof categories === "object" && categories.length === 4) {
+            console.log("passed");
+        } else {
+            console.log("FAILED");
+        };
+
+        console.log('Tetsing getCategoryByName');
+        const category = await getCategoryByName('tee-shirt');
+        if (typeof category === "object" && category.name === 'tee-shirt') {
             console.log("passed");
         } else {
             console.log("FAILED");

@@ -22,7 +22,22 @@ const getAllCategories = async () => {
         console.log('getAllCategories error', err);
     };
 };
+
+const getCategoryByName = async (name) => {
+    try {
+        const query = {
+            text: 'SELECT * FROM categories WHERE name = $1',
+            values: [name]
+        };
+
+        const { rows } = await client.query(query);
+        return rows[0];
+    } catch (error) {
+        console.error(error);
+    };
+}
 module.exports = {
     createCategory,
-    getAllCategories
+    getAllCategories,
+    getCategoryByName
 };

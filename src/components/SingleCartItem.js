@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const SingleCartItem = ({ item, userToken }) => {
+const SingleCartItem = ({ item, userToken, getCart }) => {
     const [quantity, setQuantity] = useState(item.quantity);
 
     const updateQuantity = async (event) => {
@@ -14,9 +14,24 @@ const SingleCartItem = ({ item, userToken }) => {
                         'Authorization': `Bearer ${userToken}`
                     }
                 });
+                item.quantity = updatedItem.data.cartItem.quantity;
             } catch (error) {
                 console.error(error);
             };
+        };
+    };
+
+    const removeItem = async () => {
+        try {
+            await axios.delete(`api/cartItems/${item.cartItemId}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${userToken}`
+                }
+            });
+            getCart();
+        } catch (error) {
+            console.error(error);
         };
     };
 
@@ -49,6 +64,7 @@ const SingleCartItem = ({ item, userToken }) => {
                                         false
                                 }>Update Quantity</button>
                         </form>
+                        <button className="btn btn-danger" onClick={removeItem}>Remove Item</button>
                     </div>
                 </div>
             </div>

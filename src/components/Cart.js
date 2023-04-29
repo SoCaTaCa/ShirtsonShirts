@@ -15,12 +15,8 @@ const Cart = (props) => {
         };
     };
 
-    useEffect(() => {
-        calcTotal();
-    }, [cart]);
-
     const getCart = async () => {
-        const userID = props.userID;
+        const userID = props.user.id;
         try {
             const response = await axios.get(`/api/carts/${userID}/current`, {
                 headers: {
@@ -28,12 +24,36 @@ const Cart = (props) => {
                     'Authorization': `Bearer ${props.userToken}`
                 }
             });
-            setCart(response.data.cart);
+            if (response.data.success) {
+                setCart(response.data.cart);
+            } else {
+                setCart({});
+            };
         }
         catch (err) {
             console.error(err);
         }
     }
+
+    const checkout = async () => {
+        try {
+            const _cart = await axios.patch(`/api/carts/${cart.id}`, { userId: props.user.id }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${props.userToken}`
+                }
+            });
+            if(_cart.data.success) {
+                getCart();
+            };
+        } catch (error) {
+            console.error(error);
+        };
+    };
+
+    useEffect(() => {
+        calcTotal();
+    }, [cart]);
 
     useEffect(() => {
         getCart();
@@ -41,18 +61,27 @@ const Cart = (props) => {
 
     return (
         <>
-            <h5>Total: ${total}</h5>
             {
                 (Object.keys(cart).length) ?
-                    cart.items.map((item) => {
-                        return <SingleCartItem
-                            item={item}
-                            userToken={props.userToken}
-                            getCart={getCart}
-                            calcTotal={calcTotal}
-                            key={item.cartItemId} />
-                    }) :
-                    null
+                    <>
+                        <h5>Total: ${total}</h5>
+                        <button className='btn btn-primary' onClick={checkout}>Checkout</button>
+                        {
+                            (Object.keys(cart).length) ?
+                                cart.items.map((item) => {
+                                    return <SingleCartItem
+                                        item={item}
+                                        userToken={props.userToken}
+                                        getCart={getCart}
+                                        calcTotal={calcTotal}
+                                        key={item.cartItemId} />
+                                }) :
+                                null
+                        }
+                    </> :
+                    <>
+                        <h5>Your cart is empty. Go buy some shirts!</h5>
+                    </>
             }
         </>
     )

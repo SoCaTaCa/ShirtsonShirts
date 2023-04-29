@@ -7,8 +7,19 @@ const Cart = (props) => {
     // Update route in index.js so that userToken is also being passed down
 
     const [cart, setCart] = useState({});
+    const [total, setTotal] = useState(0);
 
-    const getCart =  async () =>{
+    const calcTotal = () => {
+        if (cart.items) {
+            setTotal(cart.items.reduce((acc, curr) => acc + (curr.price * curr.quantity), 0));
+        };
+    };
+
+    useEffect(() => {
+        calcTotal();
+    }, [cart]);
+
+    const getCart = async () => {
         const userID = props.userID;
         try {
             const response = await axios.get(`/api/carts/${userID}/current`, {
@@ -30,6 +41,7 @@ const Cart = (props) => {
 
     return (
         <>
+            <h5>Total: ${total}</h5>
             {
                 (Object.keys(cart).length) ?
                     cart.items.map((item) => {
@@ -37,6 +49,7 @@ const Cart = (props) => {
                             item={item}
                             userToken={props.userToken}
                             getCart={getCart}
+                            calcTotal={calcTotal}
                             key={item.cartItemId} />
                     }) :
                     null

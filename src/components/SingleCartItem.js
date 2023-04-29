@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const SingleCartItem = ({ item, userToken, getCart }) => {
+const SingleCartItem = ({ item, userToken, getCart, calcTotal }) => {
     const [quantity, setQuantity] = useState(item.quantity);
 
     const updateQuantity = async (event) => {
@@ -15,6 +15,7 @@ const SingleCartItem = ({ item, userToken, getCart }) => {
                     }
                 });
                 item.quantity = updatedItem.data.cartItem.quantity;
+                calcTotal();
             } catch (error) {
                 console.error(error);
             };
@@ -30,6 +31,7 @@ const SingleCartItem = ({ item, userToken, getCart }) => {
                 }
             });
             getCart();
+            calcTotal();
         } catch (error) {
             console.error(error);
         };

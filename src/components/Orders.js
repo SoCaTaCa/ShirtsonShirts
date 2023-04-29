@@ -12,7 +12,7 @@ const Orders = (props) => {
                     'Authorization': `Bearer ${props.userToken}`
                 }
             });
-            setOrders(response.data);
+            setOrders(response.data.carts);
         }
         catch (err) {
             console.error(err);

@@ -61,7 +61,7 @@ const SingleCartItem = ({ item, userToken, getCart, calcTotal }) => {
                             <button
                                 className="btn btn-primary"
                                 disabled={
-                                    quantity === item.quantity ?
+                                    (!quantity || Number(quantity) === item.quantity) ?
                                         true :
                                         false
                                 }>Update Quantity</button>

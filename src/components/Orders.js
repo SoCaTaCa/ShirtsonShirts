@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import PreviousOrderCard from './PreviousOrderCard';
 
 const Orders = (props) => {
     const [orders, setOrders] = useState([]);
 
-    const getOrders = async() => {
+    const getOrders = async () => {
         try {
-            const response = await axios.get(`/api/carts/${userID}/previous`, {
+            const response = await axios.get(`/api/carts/${props.userID}/previous`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${props.userToken}`
@@ -25,6 +26,11 @@ const Orders = (props) => {
 
     return (
         <>
+            {
+                orders.map(order => {
+                    return <PreviousOrderCard order={order} key={order.id} />
+                })
+            }
         </>
     )
 }

@@ -23,7 +23,7 @@ router.get("/:userId/current", requireUser, async (req, res) => {
 router.get("/:userId/previous", requireUser, async (req, res) => {
   const { userId } = req.params;
   const carts = await getPreviousCarts(userId);
-  if (carts.length) {
+  if (carts) {
     res.send({
       success: true,
       carts,

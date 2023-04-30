@@ -36,7 +36,6 @@ const ItemDetails = ({ userToken }) => {
           },
         }
       );
-      console.log(response.data);
     } catch (err) {
       console.error(err);
     }
@@ -71,9 +70,9 @@ const ItemDetails = ({ userToken }) => {
             <label htmlFor="floatingInput">Quantity</label>
           </div>
           <button
-            type="add to cart"
+            type="add-to-cart"
             className="btn btn-primary"
-            id="add to cart button"
+            id="add-to-cart-button"
             onClick={addToCart}
           >
             Add To Cart

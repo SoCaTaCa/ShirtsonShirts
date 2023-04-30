@@ -3,11 +3,6 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 
 const EditItemForm = ({ userToken }) => {
-
-    // Add the following lines to index.js
-    // import EditItemForm from './components/EditItemForm.js';
-    // <Route path='/products/edit/:itemId' element={<EditItemForm userToken={userToken}/>}></Route>
-
     const [item, setItem] = useState({});
     const [name, setName] = useState('');
     const [size, setSize] = useState('');

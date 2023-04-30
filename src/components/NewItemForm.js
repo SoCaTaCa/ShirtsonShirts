@@ -1,26 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const NewItemForm = ({ userToken }) => {
+const NewItemForm = ({ userToken, categories, getCategories }) => {
     const [name, setName] = useState('');
     const [size, setSize] = useState('');
     const [categoryId, setCategoryId] = useState(0);
     const [description, setDescription] = useState('');
     const [imageURL, setImageURL] = useState('');
     const [price, setPrice] = useState(0);
-    const [categories, setCategories] = useState([]);
 
     useEffect(() => {
-        const getCategories = async () => {
-            try {
-                const categories = await axios.get('/api/categories');
-                if (categories.data.success) {
-                    setCategories(categories.data.categories);
-                };
-            } catch (error) {
-                console.error(error);
-            };
-        };
         getCategories();
     }, []);
 

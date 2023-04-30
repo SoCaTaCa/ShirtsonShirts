@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 
-const EditItemForm = ({ userToken }) => {
+const EditItemForm = ({ userToken, categories, getCategories }) => {
     const [item, setItem] = useState({});
     const [name, setName] = useState('');
     const [size, setSize] = useState('');
@@ -10,7 +10,6 @@ const EditItemForm = ({ userToken }) => {
     const [description, setDescription] = useState('');
     const [imageURL, setImageURL] = useState('');
     const [price, setPrice] = useState(0);
-    const [categories, setCategories] = useState([]);
 
     const { itemId } = useParams();
 
@@ -39,17 +38,6 @@ const EditItemForm = ({ userToken }) => {
     };
 
     useEffect(() => {
-        const getCategories = async () => {
-            try {
-                const categories = await axios.get('/api/categories');
-                if (categories.data.success) {
-                    setCategories(categories.data.categories);
-                };
-            } catch (error) {
-                console.error(error);
-            };
-        };
-
         getCategories();
         getItemData();
         setValues();

@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import AllItems from './AllItems';
+import Search from './Search';
 
 const Products = () => {
+    const [filteredItems, setFilteredItems] = useState([]);
     const items = [
         {
             id: 1,
@@ -26,23 +28,23 @@ const Products = () => {
         }
     ];
 
-    const renderItems = () => {
-        return items.map(item => (
-            <div key={item.id} className="item-card">
-                <img src={item.imageUrl} alt={item.name} />
-                <h3>{item.name}</h3>
-                <p>{item.description}</p>
-                <p>${item.price.toFixed(2)}</p>
-                <button>Add to Cart</button>
-            </div>
-        ));
-    };
-
     return (
-        <div className="items-container">
-            {renderItems()}
+        <div>
+            <Search items={items} setFilteredItems={setFilteredItems} />
+            {filteredItems.length > 0 ? filteredItems.map(item => (
+                <div key={item.id} className="item-card">
+                    <img src={item.imageUrl} alt={item.name} />
+                    <h3>{item.name}</h3>
+                    <p>{item.description}</p>
+                    <p>${item.price.toFixed(2)}</p>
+                    <button>Add to Cart</button>
+                </div>
+            )) : (
+                <AllItems />
+            )}
         </div>
     )
 }
 
 export default Products;
+

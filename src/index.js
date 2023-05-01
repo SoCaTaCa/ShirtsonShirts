@@ -57,7 +57,7 @@ const App = () => {
                 <Route path="/products/:itemId" element={<ItemDetails userToken={userToken} />}></Route>
                 <Route path='/products/new' element={<NewItemForm userToken={userToken} categories={categories} getCategories={getCategories}/>}></Route>
                 <Route path='/products/edit/:itemId' element={<EditItemForm userToken={userToken} categories={categories} getCategories={getCategories}/>}></Route>
-                <Route path='/previousorders' elemtn={<Orders userToken={userToken} userID={userID}/>}></Route>
+                <Route path='/previousorders' element={<Orders userToken={userToken} userID={userID}/>}></Route>
         </Routes>
       </>
     )

@@ -22,7 +22,7 @@ const Header = (props) => {
                         <div className="navbar-nav">
                             <Link className="nav-item nav-link" to="/">Home</Link>
                             <Link className="nav-item nav-link" to="/products">Products</Link>
-                            {props.isLoggedIn ? <Link className="nav-item nav-link" to="/">Orders</Link> : null }
+                            {props.isLoggedIn ? <Link className="nav-item nav-link" to="/previousorders">Orders</Link> : null }
                             {props.isLoggedIn ? <Link className="nav-item nav-link" to="/cart">Cart</Link> : null }
                             {props.isLoggedIn ? <Link onClick={() => {
                                 Logout();

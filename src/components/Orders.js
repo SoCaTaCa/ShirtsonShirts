@@ -27,9 +27,11 @@ const Orders = (props) => {
     return (
         <>
             {
-                orders.map(order => {
-                    return <PreviousOrderCard order={order} key={order.id} />
-                })
+                orders.length ?
+                    orders.map(order => {
+                        return <PreviousOrderCard order={order} key={order.id} />
+                    }) :
+                    <h5>You do not have any previous orders! Get to shopping!</h5>
             }
         </>
     )

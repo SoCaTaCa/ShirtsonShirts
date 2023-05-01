@@ -42,13 +42,13 @@ const Register = (props) => {
         try {
             const response = await axios.post('/api/users/register', {
                 username,
-                password
+                password,
+                isAdmin: false
             });
 
             if (!response.data.token) {
                 setErrorMessage(response.data.error);
             } else {
-                props.setUserID(response.data.user.id);
                 props.setUserToken(response.data.token);
                 window.localStorage.setItem('token', `${response.data.token}`);
                 props.setIsLoggedIn(true);

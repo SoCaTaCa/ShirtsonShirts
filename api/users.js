@@ -88,12 +88,19 @@ router.post("/register", async (req, res) => {
 });
 
 router.get('/me', requireUser, async (req, res) => {
-    try {
-        const user = await getUserById(req.user.id);
-        res.send(user);
-    } catch (error) {
-        console.log(error);
-    };
+  try {
+    const user = await getUserById(req.user.id);
+    if (user) {
+      res.send({
+        success: true,
+        user
+      });
+    } else {
+      res.send({ success: false });
+    }
+  } catch (error) {
+    console.log(error);
+  };
 });
 
 module.exports = router;

@@ -7,13 +7,15 @@ const Orders = (props) => {
 
     const getOrders = async () => {
         try {
-            const response = await axios.get(`/api/carts/${props.userID}/previous`, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${props.userToken}`
-                }
-            });
-            setOrders(response.data.carts);
+            if (props.user.id) {
+                const response = await axios.get(`/api/carts/${props.user.id}/previous`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${props.userToken}`
+                    }
+                });
+                setOrders(response.data.carts);
+            }
         }
         catch (err) {
             console.error(err);
@@ -22,7 +24,7 @@ const Orders = (props) => {
 
     useEffect(() => {
         getOrders();
-    }, [])
+    }, [props.user])
 
     return (
         <>

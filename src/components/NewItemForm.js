@@ -46,82 +46,93 @@ const NewItemForm = ({ userToken, categories, getCategories, user }) => {
         <>
             {
                 (user.isAdmin) ?
-                    <form onSubmit={createNewItem}>
-                        <div className='mb-3'>
-                            <label htmlFor='item-name' className='form-label'>Item Name *</label>
-                            <input
-                                className='form-control'
-                                id='item-name'
-                                value={name}
-                                required
-                                onChange={(event) => setName(event.target.value)}>
-                            </input>
-                        </div>
-                        <div className='mb-3'>
-                            <label htmlFor='item-size' className='form-label'>Size *</label>
-                            <input
-                                className='form-control'
-                                id='item-size'
-                                value={size}
-                                maxLength={10}
-                                required
-                                onChange={(event) => setSize(event.target.value)}>
-                            </input>
-                        </div>
-                        <select
-                            className='form-select'
-                            onChange={(event) => setCategoryId(event.target.value)}>
-                            <option value={0}>Select Category</option>
-                            {
-                                categories.length ?
-                                    categories.map((category, idx) => {
-                                        return (
-                                            <option value={category.id} key={idx}>{category.name}</option>
-                                        )
-                                    }) :
-                                    null
-                            }
-                        </select>
-                        <div className='mb-3'>
-                            <label htmlFor='item-description' className='form-label'>Description *</label>
-                            <input
-                                className='form-control'
-                                id='item-description'
-                                value={description}
-                                required
-                                onChange={(event) => setDescription(event.target.value)}>
-                            </input>
-                        </div>
-                        <div className='mb-3'>
-                            <label htmlFor='item-imageURL' className='form-label'>Image URL *</label>
-                            <input
-                                className='form-control'
-                                id='item-imageURL'
-                                value={imageURL}
-                                required
-                                onChange={(event) => setImageURL(event.target.value)}>
-                            </input>
-                        </div>
-                        <div className='mb-3'>
-                            <label htmlFor='item-price' className='form-label'>Price *</label>
-                            <input
-                                type='number'
-                                className='form-control'
-                                id='item-price'
-                                value={price}
-                                required
-                                onChange={(event) => setPrice(event.target.value)}>
-                            </input>
-                        </div>
-                        <button
-                            type='submit'
-                            className='btn btn-primary'
-                            disabled={
-                                name && description && price && categoryId && description ?
-                                    false :
-                                    true
-                            }>Create New Item</button>
-                    </form> :
+                    <div className='item-form-container'>
+                        <form onSubmit={createNewItem} className='item-form'>
+                            <h1>New Product</h1>
+                            <div className='form-floating mb-3 item-field'>
+                                <input
+                                    className='form-control'
+                                    id='item-name'
+                                    value={name}
+                                    required
+                                    placeholder="ayowtf"
+                                    onChange={(event) => setName(event.target.value)}>
+                                </input>
+                                <label htmlFor='item-name'>Item Name *</label>
+                            </div>
+                            <div className='form-floating mb-3 item-field'>
+                                <input
+                                    className='form-control'
+                                    id='item-size'
+                                    value={size}
+                                    maxLength={10}
+                                    required
+                                    placeholder="Size"
+                                    onChange={(event) => setSize(event.target.value)}>
+                                </input>
+                                <label htmlFor='item-size'>Size *</label>
+                            </div>
+                            <select
+                                className='form-select mb-3 item-field'
+                                onChange={(event) => setCategoryId(event.target.value)}>
+                                <option value={0}>Select Category</option>
+                                {
+                                    categories.length ?
+                                        categories.map((category, idx) => {
+                                            return (
+                                                <option value={category.id} key={idx}>{category.name}</option>
+                                            )
+                                        }) :
+                                        null
+                                }
+                            </select>
+                            <div className='form-floating mb-3'>
+                                <textarea
+                                    className='form-control'
+                                    id='item-description'
+                                    value={description}
+                                    required
+                                    rows={5}
+                                    placeholder='Description'
+                                    style={{
+                                        height: 100+'px'
+                                    }}
+                                    onChange={(event) => setDescription(event.target.value)}>
+                                </textarea>
+                                <label htmlFor='item-description'>Description *</label>
+                            </div>
+                            <div className='form-floating mb-3 item-field'>
+                                <input
+                                    className='form-control'
+                                    id='item-imageURL'
+                                    value={imageURL}
+                                    required
+                                    placeholder='Image URL'
+                                    onChange={(event) => setImageURL(event.target.value)}>
+                                </input>
+                                <label htmlFor='item-imageURL'>Image URL *</label>
+                            </div>
+                            <div className='form-floating mb-3 item-field'>
+                                <input
+                                    type='number'
+                                    className='form-control'
+                                    id='item-price'
+                                    value={price}
+                                    required
+                                    onChange={(event) => setPrice(event.target.value)}>
+                                </input>
+                                <label htmlFor='item-price'>Price *</label>
+                            </div>
+                            <button
+                                type='submit'
+                                className='btn btn-primary item-form-button'
+                                disabled={
+                                    name && description && price && categoryId && description ?
+                                        false :
+                                        true
+                                }>Create New Item</button>
+                        </form>
+                    </div > :
                     <h5>You must be an administrator to view this page!</h5>
             }
         </>

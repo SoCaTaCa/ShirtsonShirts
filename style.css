@@ -4,21 +4,21 @@
     margin-bottom: 10px;
 }
 
-/* ---LOGIN CSS && REGISTER CSS --- */
+/* ---LOGIN, REGISTER, NEW ITEM, EDIT ITEM CSS --- */
 
-#login-container {
+#login-container, .item-form-container {
     display: flex;
     justify-content: center;
 }
 
-#login {
+#login, .item-form {
     display: flex;
     justify-content: center;
     flex-direction: column;
     width: 500px;
 }
 
-#login-field {
+#login-field, .item-field {
     min-width: 350px;
     max-width: 500px;
     margin-bottom: 15px;
@@ -26,6 +26,10 @@
 
 #login-buttons {
     width: 100px;
+}
+
+.item-form-button {
+    width: 150px;
 }
 
 #login-buttons:first-of-type {

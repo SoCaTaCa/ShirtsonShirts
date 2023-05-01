@@ -170,16 +170,16 @@ const createInitialItems = async () => {
             size: 'S',
             categoryId: 1,
             description: 'Red dyed cotton blend tee-shirt with the SoCaTaCa team logo',
-            imageURL: './images/default_shirt.png'
+            imageURL: './images/red_socataca_tee.png'
         });
 
         const itemTwo = await createItem({
             name: 'Red SoCaTaCa Tee',
             price: '500',
             size: 'M',
-            categoryId: 3,
+            categoryId: 1,
             description: 'Red dyed cotton blend tee-shirt with the SoCaTaCa team logo',
-            imageURL: './images/default_shirt.png'
+            imageURL: './images/red_socataca_tee.png'
         });
 
         const itemThree = await createItem({
@@ -188,7 +188,7 @@ const createInitialItems = async () => {
             size: 'L',
             categoryId: 1,
             description: 'Red dyed cotton blend tee-shirt with the SoCaTaCa team logo',
-            imageURL: './images/default_shirt.png'
+            imageURL: './images/red_socataca_tee.png'
         });
 
         const itemFour = await createItem({

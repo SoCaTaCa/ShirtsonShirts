@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 
-const Search = ({ items, setFilteredItems }) => {
-    const [searchTerm, setSearchTerm] = useState('');
-
+const Search = ({ searchTerm, setSearchTerm, items, setFilteredItems }) => {
     const handleSearch = (event) => {
         const value = event.target.value;
         setSearchTerm(value);

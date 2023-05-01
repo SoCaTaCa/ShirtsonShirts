@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 import { HashRouter, Routes, Route } from 'react-router-dom';
 import axios from 'axios';
@@ -18,6 +18,16 @@ const App = () => {
     const [userToken, setUserToken] = useState(window.localStorage.getItem('token'));
     const [isLoggedIn, setIsLoggedIn] = useState(window.localStorage.getItem('token'));
     const [categories, setCategories] = useState([]);
+    const [items, setItems] = useState([]);
+
+    const getItems = async () => {
+        try {
+            const response = await axios.get('/api/items');
+            setItems(response.data.items);
+        } catch (err) {
+            console.error(err)
+        }
+    }
 
     const getCategories = async () => {
         try {
@@ -30,6 +40,11 @@ const App = () => {
         };
     };
 
+    useEffect(() => {
+        getItems();
+        getCategories();
+    }, [])
+
     return (
       <>
         <Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} setUserToken={setUserToken}/>
@@ -37,7 +52,7 @@ const App = () => {
                 <Route path='/' element={<Home />}></Route>
                 <Route path='/login' element={<Login isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} setUserID={setUserID} setUserToken={setUserToken}/>}></Route>
                 <Route path='/register' element={<Register setUserToken={setUserToken} setIsLoggedIn={setIsLoggedIn} setUserID={setUserID}/>}></Route>
-                <Route path='/products' element={<Products />}></Route>
+                <Route path='/products' element={<Products items={items} setItems={setItems} getItems={getItems} categories={categories}/>}></Route>
                 <Route path='/cart' element={<Cart userToken={userToken} userID={userID}/>}></Route>
                 <Route path="/products/:itemId" element={<ItemDetails userToken={userToken} />}></Route>
                 <Route path='/products/new' element={<NewItemForm userToken={userToken} categories={categories} getCategories={getCategories}/>}></Route>

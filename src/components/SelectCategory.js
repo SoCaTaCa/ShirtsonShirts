@@ -1,12 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
-const SelectCategory = ({ categories, setItems, getItems }) => {
-    const [categoryId, setCategoryId] = useState('');
-
-    // Add the following line to Products component, above the call for AllItems
-    // AFTER moving getItems function etc... (ticket #200)
-    // <SelectCategory categories={categories} setItems={setItems} getItems={getItems} />
+const SelectCategory = ({ categories, setItems, getItems, setSearchTerm }) => {
+    const [categoryId, setCategoryId] = useState('0');
 
     const filterByCategory = async () => {
         try {
@@ -18,6 +14,7 @@ const SelectCategory = ({ categories, setItems, getItems }) => {
             } else {
                 getItems();
             }
+            setSearchTerm('');
         } catch (error) {
             console.error(error);
         };

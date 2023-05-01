@@ -22,7 +22,6 @@ const ItemDetails = ({ userToken }) => {
   const addToCart = async (event) => {
     event.preventDefault();
     try {
-      console.log(userToken);
       const response = await axios.post(
         `/api/cartItems/`,
         {
@@ -36,6 +35,7 @@ const ItemDetails = ({ userToken }) => {
           },
         }
       );
+      console.log(response.data);
     } catch (err) {
       console.error(err);
     }

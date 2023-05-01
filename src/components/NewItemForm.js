@@ -2,11 +2,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const NewItemForm = ({ userToken }) => {
-
-    // Add the following lines to index.js
-    // import NewItemForm from './components/NewItemForm.js';
-    // <Route path='/products/new' element={<NewItemForm userToken={userToken}/>}></Route>
-    
     const [name, setName] = useState('');
     const [size, setSize] = useState('');
     const [categoryId, setCategoryId] = useState(0);

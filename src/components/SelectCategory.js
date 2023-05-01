@@ -30,7 +30,7 @@ const SelectCategory = ({ categories, setItems, getItems, setSearchTerm }) => {
             aria-label="category selection"
             defaultValue={0}
             onChange={(event) => setCategoryId(event.target.value)}>
-            <option value={0}>All categories</option>
+            <option value={0}>Filter by Category</option>
             {
                 categories.map((category) => {
                     return <option value={category.id} key={category.id}>{category.name}</option>

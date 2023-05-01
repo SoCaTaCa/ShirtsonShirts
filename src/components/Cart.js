@@ -60,7 +60,7 @@ const Cart = (props) => {
     return (
         <>
             {
-                (Object.keys(cart).length) ?
+                (Object.keys(cart).length && cart.items.length) ?
                     <>
                         <h5>Total: ${total}</h5>
                         <button className='btn btn-primary' onClick={checkout}>Checkout</button>

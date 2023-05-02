@@ -191,7 +191,10 @@ const EditItemForm = ({ userToken, categories, getCategories, user }) => {
                                 }>Update Item</button>
                         </form>
                     </div> :
-                    <h5>You must be an administrator to view this page!</h5>
+                    <div className='admin-warning'>
+                        <h2>Access Denied</h2>
+                        <h3>You must be an administrator to view this page!</h3>
+                    </div>
             }
         </>
     )

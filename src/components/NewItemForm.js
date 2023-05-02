@@ -95,7 +95,7 @@ const NewItemForm = ({ userToken, categories, getCategories, user }) => {
                                     rows={5}
                                     placeholder='Description'
                                     style={{
-                                        height: 100+'px'
+                                        height: 100 + 'px'
                                     }}
                                     onChange={(event) => setDescription(event.target.value)}>
                                 </textarea>
@@ -133,7 +133,10 @@ const NewItemForm = ({ userToken, categories, getCategories, user }) => {
                                 }>Create New Item</button>
                         </form>
                     </div > :
-                    <h5>You must be an administrator to view this page!</h5>
+                    <div className='admin-warning'>
+                        <h2>Access Denied</h2>
+                        <h3>You must be an administrator to view this page!</h3>
+                    </div>
             }
         </>
     );

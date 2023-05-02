@@ -35,3 +35,15 @@
 #login-buttons:first-of-type {
     margin-right: 5px;
 }
+
+.admin-warning {
+    text-align: center;
+}
+
+.admin-warning > h2 {
+    color: red;
+    font-size: 3em;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: .125em;
+}

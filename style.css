@@ -4,7 +4,7 @@
     margin-bottom: 10px;
 }
 
-/* ---LOGIN, REGISTER, NEW ITEM, EDIT ITEM CSS --- */
+/* ---LOGIN, REGISTER, NEW ITEM, EDIT ITEM CSS--- */
 
 #login-container, .item-form-container {
     display: flex;
@@ -46,4 +46,30 @@
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: .125em;
+}
+
+/* ---ORDER HISTORY CSS--- */
+
+.product-thumbnail {
+    max-width: 200px;
+    max-height: 200px;
+    margin: auto 0;
+}
+
+.previous-order-card {
+    width: 80vw;
+    height: 225px;
+    margin: 0 auto;
+}
+
+.previous-order-details {
+    height: 100%;
+}
+
+.oh-title {
+    margin-left: 10vw;
+}
+
+.no-previous-orders {
+    text-align: center;
 }

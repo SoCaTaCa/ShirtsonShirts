@@ -1,33 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-const PreviousOrderCard = ({ order, userToken }) => {
-    const [total, setTotal] = useState(0);
-
+const PreviousOrderCard = ({ item, userToken, purchaseTime }) => {
     const navigate = useNavigate();
-
-    const calcTotal = () => {
-        if (order.items) {
-            setTotal(order.items.reduce((acc, curr) => acc + (curr.price * curr.quantity), 0));
-        };
-    };
 
     const orderAgain = async () => {
         try {
-            if (order.items) {
-                for (let i = 0; i < order.items.length; i++) {
-                    const item = order.items[i];
-                    await axios.post("/api/cartItems", {
-                        itemId: item.itemId,
-                        quantity: item.quantity
-                    }, {
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${userToken}`
-                        }
-                    })
-                };
+            if (item) {
+                await axios.post("/api/cartItems", {
+                    itemId: item.itemId,
+                    quantity: item.quantity
+                }, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${userToken}`
+                    }
+                })
             };
             navigate("/cart");
         } catch (error) {
@@ -36,24 +25,34 @@ const PreviousOrderCard = ({ order, userToken }) => {
 
     };
 
-    useEffect(() => {
-        calcTotal();
-    }, []);
-
     return (
-        <div className="card">
-            <h5 className="card-title">Purchased on: {new Date(Date.parse(order.purchaseTime)).toString()}</h5>
-            <p className="card-text">Total: ${total}</p>
-            <p className="card-text">Shirts:</p>
-            <ul>
-                {
-                    order.items.map((item) => {
-                        return <li key={item.cartItemId}>{item.quantity} {item.name} - {item.size}</li>
-                    })
-                }
-            </ul>
-            <button className="btn btn-success" onClick={orderAgain}>Add Order to Cart</button>
-        </div >
+        <div className="card mb-3 previous-order-card">
+            <div className="previous-order-details row g-0 d-flex align-items-center">
+                <div className="col-md-2 d-flex justify-content-center">
+                    <button className="btn btn-outline-secondary" onClick={() => navigate(`/products/${item.itemId}`)}>
+                        <img
+                            className="product-thumbnail"
+                            src={item.imageURL}
+                            alt={item.name}
+                        />
+                    </button>
+                </div>
+                <div className="col-md-7">
+                    <div className="card-body">
+                        <a className='nav-link' href={`/#/products/${item.itemId}`}>
+                            <h5 className="card-title">{item.name}</h5>
+                        </a>
+                        <p className="card-text">Size: {item.size}</p>
+                        <p className="card-text">Quantity: {item.quantity}</p>
+                        <p className="card-text">Total: ${item.price * item.quantity}</p>
+                    </div>
+                </div>
+                <div className="col-md-3 d-flex flex-column align-items-center">
+                    <p className="card-text">Purchased on: {new Date(Date.parse(purchaseTime)).toString().split(' ').slice(0, 5).join(' ')}</p>
+                    <button className="btn btn-success" onClick={orderAgain}>Order Again</button>
+                </div>
+            </div>
+        </div>
     )
 
 };

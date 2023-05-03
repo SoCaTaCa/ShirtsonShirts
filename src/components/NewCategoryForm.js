@@ -30,13 +30,13 @@ const NewCategoryForm = ({ userToken }) => {
     };
 
     return (
-        <form onSubmit={addCategory} className="mb-3">
-            <label htmlFor="category-name" className="form-label">Add a new category:</label>
+        <form onSubmit={addCategory} className="d-flex mb-0 justify-content-center">
             <input
                 className="form-control"
                 id="category-name"
                 value={name}
                 required
+                placeholder="New Category"
                 onChange={(event) => setName(event.target.value)}>
             </input>
             {
@@ -48,7 +48,7 @@ const NewCategoryForm = ({ userToken }) => {
             }
             <button
                 type="submit"
-                className="btn btn-primary"
+                className="btn btn-primary mx-3 new-category-button"
                 disabled={
                     name ?
                         false :

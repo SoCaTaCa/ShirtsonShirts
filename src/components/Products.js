@@ -15,21 +15,25 @@ const Products = ({ items, setItems, getItems, groupItems, categories, user, use
 
     return (
         <div>
-            {
-                (user.isAdmin) ?
-                    <>
-                    <div className='card mb-3'>
-                        <div className='card-body'>
-                            <h5 className='card-title'>Admin Tools</h5>
-                            <NewCategoryForm userToken={userToken}/>
-                            <Link to="/products/new"><button className='btn btn-primary'>Add new Product</button></Link>
-                        </div>
-                    </div>
-                    </> :
-                    null
-            }
-            <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} items={items} setFilteredItems={setFilteredItems} />
-            <SelectCategory setItems={setItems} getItems={getItems} groupItems={groupItems} categories={categories} setSearchTerm={setSearchTerm} />
+            <h1 className='text-center'>Shirts!</h1>
+            <div className='d-flex justify-content-evenly'>
+                <div className='d-flex product-page-tool'>
+                    <SelectCategory setItems={setItems} getItems={getItems} groupItems={groupItems} categories={categories} setSearchTerm={setSearchTerm} />
+                    <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} items={items} setFilteredItems={setFilteredItems} />
+                </div>
+                {
+                    (user.isAdmin) ?
+                        <>
+                            <div className='product-page-tool'>
+                                <NewCategoryForm userToken={userToken} />
+                            </div>
+                            <div className='product-page-tool'>
+                                <Link to="/products/new"><button className='btn btn-primary'>Add new Product</button></Link>
+                            </div>
+                        </> :
+                        null
+                }
+            </div>
             <AllItems filteredItems={filteredItems} />
         </div>
     )

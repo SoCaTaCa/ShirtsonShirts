@@ -9,8 +9,9 @@ const Search = ({ searchTerm, setSearchTerm, items, setFilteredItems }) => {
     };
 
     return (
-        <div className="search-container">
+        <div>
             <input
+                className="form-control"
                 type="text"
                 placeholder="Search by name"
                 value={searchTerm}

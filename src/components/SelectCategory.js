@@ -26,11 +26,11 @@ const SelectCategory = ({ categories, setItems, getItems, groupItems, setSearchT
 
     return (
         <select
-            className="form-select"
+            className="form-select mx-3 category-filter"
             aria-label="category selection"
             defaultValue={0}
             onChange={(event) => setCategoryId(event.target.value)}>
-            <option value={0}>Filter by Category</option>
+            <option value={0}>All Categories</option>
             {
                 categories.map((category) => {
                     return <option value={category.id} key={category.id}>{category.name}</option>

@@ -35,7 +35,7 @@ const Cart = (props) => {
 
     const checkout = async () => {
         try {
-            const _cart = await axios.patch(`/api/carts/${cart.id}`, { userId: props.user.id }, {
+            const _cart = await axios.patch(`/api/carts/${cart.id}`, {}, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${props.userToken}`

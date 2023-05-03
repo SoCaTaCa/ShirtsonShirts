@@ -38,9 +38,9 @@ router.get("/:userId/previous", requireUser, async (req, res) => {
 });
 
 router.patch("/:cartId", requireUser, async (req, res) => {
-  const { userId } = req.body;
+  const { cartId } = req.params;
   try {
-    const cart = await purchaseCart(userId);
+    const cart = await purchaseCart(cartId);
     if (cart) {
       res.send({
         success: true,

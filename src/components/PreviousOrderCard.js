@@ -1,12 +1,39 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-const PreviousOrderCard = ({ order }) => {
+const PreviousOrderCard = ({ order, userToken }) => {
     const [total, setTotal] = useState(0);
+
+    const navigate = useNavigate();
 
     const calcTotal = () => {
         if (order.items) {
             setTotal(order.items.reduce((acc, curr) => acc + (curr.price * curr.quantity), 0));
         };
+    };
+
+    const orderAgain = async () => {
+        try {
+            if (order.items) {
+                for (let i = 0; i < order.items.length; i++) {
+                    const item = order.items[i];
+                    await axios.post("/api/cartItems", {
+                        itemId: item.itemId,
+                        quantity: item.quantity
+                    }, {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${userToken}`
+                        }
+                    })
+                };
+            };
+            navigate("/cart");
+        } catch (error) {
+            console.error(error);
+        };
+
     };
 
     useEffect(() => {
@@ -25,6 +52,7 @@ const PreviousOrderCard = ({ order }) => {
                     })
                 }
             </ul>
+            <button className="btn btn-success" onClick={orderAgain}>Add Order to Cart</button>
         </div >
     )
 

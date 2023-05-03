@@ -31,7 +31,7 @@ const NewCategoryForm = ({ userToken }) => {
 
     return (
         <form onSubmit={addCategory} className="mb-3">
-            <label htmlFor="category-name" className="form-label">Name *</label>
+            <label htmlFor="category-name" className="form-label">Add a new category:</label>
             <input
                 className="form-control"
                 id="category-name"

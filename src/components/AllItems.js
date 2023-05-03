@@ -3,13 +3,13 @@ import ProductCard from './ProductCard';
 
 const AllItems = ({ filteredItems }) => {
     return (
-        <ul>
-            {
-                filteredItems.map((item, index) => {
-                    return <ProductCard item={item[0]} key={index} />
-                })
-            }
-        </ul>
+            <div className='d-flex flex-wrap justify-content-around'>
+                {
+                    filteredItems.map((item, index) => {
+                        return <ProductCard item={item[0]} key={index} />
+                    })
+                }
+            </div>
     )
 }
 

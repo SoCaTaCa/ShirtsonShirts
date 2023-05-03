@@ -51,56 +51,68 @@ const ItemDetails = ({ userToken, user }) => {
 
   return (
     <>
-      <ul>
-        <div>
-          <img src={selectedItem.imageURL} alt={selectedItem.name} />
-          <li>{selectedItem.name}</li>
-          <li>{selectedItem.price}</li>
-          <select
-            className="form-select"
-            aria-label="size-select"
-            defaultValue={selectedItem.id}
-            onChange={(event) => {
-              for (let i = 0; i < items.length; i++) {
-                if (items[i].id.toString() === event.target.value) {
-                  setSelectedItem(items[i]);
-                  break;
-                }
-              }
-            }}>
-            {
-              items.map((item) => {
-                return <option value={item.id} key={item.id}>{item.size}</option>
-              })
-            }
-          </select>
-          <li>{selectedItem.description}</li>
-          <div className="form-floating mb-3" id="quantity-input">
-            <input
-              type="text"
-              className="form-control"
-              id="floatingInput"
-              onChange={onChange}
-              placeholder="1"
-              name="quantity-name"
-              value={quantity}
-            />
+      <ul classname="item-detail-list">
 
-            <label htmlFor="floatingInput">Quantity</label>
+        <div className="item-detail-container">
+          <h1>{selectedItem.name}</h1>
+          <div className="item-detail-child">
+
+            <div className="item-detail-image-container">
+              <img className="item-detail-image" src={selectedItem.imageURL} alt={selectedItem.name} />
+            </div>
+
+            <div className="item-detail-description">
+              <li>{selectedItem.price}$</li>
+              <li>{selectedItem.description}</li>
+            </div>
+
+            <div className="item-detail-buttons">
+              <button
+                type="add-to-cart"
+                className="btn btn-primary"
+                id="add-to-cart-button"
+                onClick={addToCart}
+              >
+                Add To Cart
+              </button>
+              {
+                (user.isAdmin) ?
+                  <Link to={`/products/edit/${selectedItem.id}`}><button className='btn btn-primary'>Edit Item</button></Link> :
+                  null
+              }
+              <select
+                className="form-select"
+                aria-label="size-select"
+                defaultValue={selectedItem.id}
+                onChange={(event) => {
+                  for (let i = 0; i < items.length; i++) {
+                    if (items[i].id.toString() === event.target.value) {
+                      setSelectedItem(items[i]);
+                      break;
+                    }
+                  }
+                }}>
+                {
+                  items.map((item) => {
+                    return <option value={item.id} key={item.id}>{item.size}</option>
+                  })
+                }
+              </select>
+              <div className="form-floating mb-3" id="quantity-input">
+                <input
+                  type="text"
+                  className="form-control"
+                  id="floatingInput"
+                  onChange={onChange}
+                  placeholder="1"
+                  name="quantity-name"
+                  value={quantity}
+                />
+
+                <label htmlFor="floatingInput">Quantity</label>
+              </div>
+            </div>
           </div>
-          <button
-            type="add-to-cart"
-            className="btn btn-primary"
-            id="add-to-cart-button"
-            onClick={addToCart}
-          >
-            Add To Cart
-          </button>
-          {
-            (user.isAdmin) ?
-              <Link to={`/products/edit/${selectedItem.id}`}><button className='btn btn-primary'>Edit Item</button></Link> :
-              null
-          }
         </div>
       </ul>
     </>

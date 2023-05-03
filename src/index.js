@@ -74,10 +74,10 @@ const App = () => {
                 <Route path='/' element={<Home />}></Route>
                 <Route path='/login' element={<Login isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} setUserToken={setUserToken}/>}></Route>
                 <Route path='/register' element={<Register setUserToken={setUserToken} setIsLoggedIn={setIsLoggedIn} />}></Route>
-                <Route path='/products' element={<Products items={items} setItems={setItems} getItems={getItems} categories={categories}/>}></Route>
+                <Route path='/products' element={<Products items={items} setItems={setItems} getItems={getItems} categories={categories} user={user} />}></Route>
                 <Route path='/cart' element={<Cart userToken={userToken} user={user}/>}></Route>
                 <Route path="/products/:itemId" element={<ItemDetails userToken={userToken} />}></Route>
-                <Route path='/products/new' element={<NewItemForm userToken={userToken} categories={categories} getCategories={getCategories}/>}></Route>
+                <Route path='/products/new' element={<NewItemForm userToken={userToken} categories={categories} getCategories={getCategories} user={user} />}></Route>
                 <Route path='/products/edit/:itemId' element={<EditItemForm userToken={userToken} categories={categories} getCategories={getCategories}/>}></Route>
                 <Route path='/previousorders' element={<Orders userToken={userToken} user={user}/>}></Route>
         </Routes>

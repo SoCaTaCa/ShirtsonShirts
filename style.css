@@ -56,13 +56,14 @@
     margin: auto 0;
 }
 
-.previous-order-card {
+.previous-order-card, .cart-item-card {
     width: 80vw;
     height: 225px;
     margin: 0 auto;
+    padding: 1em;
 }
 
-.previous-order-details {
+.previous-order-details, .cart-item-details {
     height: 100%;
 }
 
@@ -72,4 +73,10 @@
 
 .no-previous-orders {
     text-align: center;
+}
+
+/* ---CART CSS--- */
+
+.quantity-selection {
+    max-width: 5em;
 }

@@ -28,12 +28,15 @@ const Orders = (props) => {
 
     return (
         <>
+            <h1 className='oh-title'>Order History</h1>
             {
                 orders.length ?
-                    orders.map(order => {
-                        return <PreviousOrderCard order={order} userToken={props.userToken} key={order.id} />
+                    orders.reverse().map(order => {
+                        return order.items.map(item => {
+                            return <PreviousOrderCard item={item} userToken={props.userToken} purchaseTime={order.purchaseTime} key={item.cartItemId} />
+                        })
                     }) :
-                    <h5>You do not have any previous orders! Get to shopping!</h5>
+                    <h5 className='no-previous-orders'>You do not have any previous orders! Get to shopping!</h5>
             }
         </>
     )

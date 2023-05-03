@@ -14,11 +14,29 @@ import EditItemForm from './components/EditItemForm.js';
 import Orders from './components/Orders.js';
 
 const App = () => {
-    const [userID, setUserID] = useState('');
+    const [user, setUser] = useState({});
     const [userToken, setUserToken] = useState(window.localStorage.getItem('token'));
     const [isLoggedIn, setIsLoggedIn] = useState(window.localStorage.getItem('token'));
     const [categories, setCategories] = useState([]);
     const [items, setItems] = useState([]);
+
+    const getUserData = async () => {
+        if (userToken) {
+            try {
+                const response = await axios.get(`/api/users/me`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${userToken}`
+                    }
+                });
+                setUser(response.data.user);
+            } catch (error) {
+                console.error(error);
+            };
+        } else {
+            setUser({});
+        };
+    };
 
     const getItems = async () => {
         try {
@@ -43,21 +61,25 @@ const App = () => {
     useEffect(() => {
         getItems();
         getCategories();
-    }, [])
+    }, []);
+
+    useEffect(() => {
+        getUserData();
+    }, [userToken])
 
     return (
       <>
         <Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} setUserToken={setUserToken}/>
         <Routes>
                 <Route path='/' element={<Home />}></Route>
-                <Route path='/login' element={<Login isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} setUserID={setUserID} setUserToken={setUserToken}/>}></Route>
-                <Route path='/register' element={<Register setUserToken={setUserToken} setIsLoggedIn={setIsLoggedIn} setUserID={setUserID}/>}></Route>
+                <Route path='/login' element={<Login isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} setUserToken={setUserToken}/>}></Route>
+                <Route path='/register' element={<Register setUserToken={setUserToken} setIsLoggedIn={setIsLoggedIn} />}></Route>
                 <Route path='/products' element={<Products items={items} setItems={setItems} getItems={getItems} categories={categories}/>}></Route>
-                <Route path='/cart' element={<Cart userToken={userToken} userID={userID}/>}></Route>
+                <Route path='/cart' element={<Cart userToken={userToken} user={user}/>}></Route>
                 <Route path="/products/:itemId" element={<ItemDetails userToken={userToken} />}></Route>
                 <Route path='/products/new' element={<NewItemForm userToken={userToken} categories={categories} getCategories={getCategories}/>}></Route>
                 <Route path='/products/edit/:itemId' element={<EditItemForm userToken={userToken} categories={categories} getCategories={getCategories}/>}></Route>
-                <Route path='/previousorders' element={<Orders userToken={userToken} userID={userID}/>}></Route>
+                <Route path='/previousorders' element={<Orders userToken={userToken} user={user}/>}></Route>
         </Routes>
       </>
     )

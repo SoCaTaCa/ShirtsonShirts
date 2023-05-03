@@ -3,9 +3,6 @@ import axios from 'axios';
 import SingleCartItem from './SingleCartItem';
 
 const Cart = (props) => {
-
-    // Update route in index.js so that userToken is also being passed down
-
     const [cart, setCart] = useState({});
     const [total, setTotal] = useState(0);
 
@@ -16,18 +13,19 @@ const Cart = (props) => {
     };
 
     const getCart = async () => {
-        const userID = props.user.id;
         try {
-            const response = await axios.get(`/api/carts/${userID}/current`, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${props.userToken}`
-                }
-            });
-            if (response.data.success) {
-                setCart(response.data.cart);
-            } else {
-                setCart({});
+            if (props.user.id) {
+                const response = await axios.get(`/api/carts/${props.user.id}/current`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${props.userToken}`
+                    }
+                });
+                if (response.data.success) {
+                    setCart(response.data.cart);
+                } else {
+                    setCart({});
+                };
             };
         }
         catch (err) {
@@ -43,7 +41,7 @@ const Cart = (props) => {
                     'Authorization': `Bearer ${props.userToken}`
                 }
             });
-            if(_cart.data.success) {
+            if (_cart.data.success) {
                 getCart();
             };
         } catch (error) {
@@ -57,7 +55,7 @@ const Cart = (props) => {
 
     useEffect(() => {
         getCart();
-    }, [])
+    }, [props.user])
 
     return (
         <>

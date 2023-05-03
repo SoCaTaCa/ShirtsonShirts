@@ -4,20 +4,22 @@ import { useParams } from "react-router-dom";
 import { Link } from 'react-router-dom';
 
 const ItemDetails = ({ userToken, user }) => {
-  const { itemId } = useParams();
-  const [item, setItem] = useState([]);
+  const { itemname } = useParams();
+  const [items, setItems] = useState([]);
+  const [selectedItem, setSelectedItem] = useState({});
   const [quantity, setQuantity] = useState("");
 
-  const getItem = async () => {
+  const getItems = async () => {
     try {
-      const response = await axios.get(`/api/items/${itemId}`);
-      setItem(response.data.item);
+      const response = await axios.get(`/api/items/name/${itemname}`);
+      setItems(response.data.items);
+      setSelectedItem(response.data.items[0]);
     } catch (err) {
       console.error(err);
     }
   };
   useEffect(() => {
-    getItem();
+    getItems();
   }, []);
 
   const addToCart = async (event) => {
@@ -26,7 +28,7 @@ const ItemDetails = ({ userToken, user }) => {
       const response = await axios.post(
         `/api/cartItems/`,
         {
-          itemId: itemId,
+          itemId: selectedItem.id,
           quantity: quantity,
         },
         {
@@ -51,11 +53,28 @@ const ItemDetails = ({ userToken, user }) => {
     <>
       <ul>
         <div>
-          <img src={item.imageURL} alt={item.name} />
-          <li>{item.name}</li>
-          <li>{item.price}</li>
-          <li>{item.size}</li>
-          <li>{item.description}</li>
+          <img src={selectedItem.imageURL} alt={selectedItem.name} />
+          <li>{selectedItem.name}</li>
+          <li>{selectedItem.price}</li>
+          <select
+            className="form-select"
+            aria-label="size-select"
+            defaultValue={selectedItem.id}
+            onChange={(event) => {
+              for (let i = 0; i < items.length; i++) {
+                if (items[i].id.toString() === event.target.value) {
+                  setSelectedItem(items[i]);
+                  break;
+                }
+              }
+            }}>
+            {
+              items.map((item) => {
+                return <option value={item.id} key={item.id}>{item.size}</option>
+              })
+            }
+          </select>
+          <li>{selectedItem.description}</li>
           <div className="form-floating mb-3" id="quantity-input">
             <input
               type="text"
@@ -79,7 +98,7 @@ const ItemDetails = ({ userToken, user }) => {
           </button>
           {
             (user.isAdmin) ?
-              <Link to={`/products/edit/${item.id}`}><button className='btn btn-primary'>Edit Item</button></Link> :
+              <Link to={`/products/edit/${selectedItem.id}`}><button className='btn btn-primary'>Edit Item</button></Link> :
               null
           }
         </div>

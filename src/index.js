@@ -41,11 +41,28 @@ const App = () => {
     const getItems = async () => {
         try {
             const response = await axios.get('/api/items');
-            setItems(response.data.items);
+            setItems(await groupItems(response.data.items));
         } catch (err) {
             console.error(err)
         }
     }
+
+    const groupItems = async (items) => {
+        const names = [];
+        const groupedItems = [];
+        items.map((item) => {
+            if (!names.includes(item.name)) {
+                names.push(item.name);
+            };
+        });
+        for (let i = 0; i < names.length; i++) {
+            const response = await axios.get(`/api/items/name/${names[i]}`);
+            if (response.data.success) {
+                groupedItems.push(response.data.items);
+            };
+        };
+        return groupedItems;
+    };
 
     const getCategories = async () => {
         try {
@@ -74,9 +91,9 @@ const App = () => {
                 <Route path='/' element={<Home />}></Route>
                 <Route path='/login' element={<Login isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} setUserToken={setUserToken}/>}></Route>
                 <Route path='/register' element={<Register setUserToken={setUserToken} setIsLoggedIn={setIsLoggedIn} />}></Route>
-                <Route path='/products' element={<Products items={items} setItems={setItems} getItems={getItems} categories={categories} user={user} userToken={userToken}/>}></Route>
+                <Route path='/products' element={<Products items={items} setItems={setItems} getItems={getItems} groupItems={groupItems} categories={categories} user={user} userToken={userToken}/>}></Route>
                 <Route path='/cart' element={<Cart userToken={userToken} user={user}/>}></Route>
-                <Route path="/products/:itemId" element={<ItemDetails userToken={userToken} user={user} />}></Route>
+                <Route path="/products/:itemname" element={<ItemDetails userToken={userToken} user={user} />}></Route>
                 <Route path='/products/new' element={<NewItemForm userToken={userToken} categories={categories} getCategories={getCategories} user={user} />}></Route>
                 <Route path='/products/edit/:itemId' element={<EditItemForm userToken={userToken} categories={categories} getCategories={getCategories} user={user} />}></Route>
                 <Route path='/previousorders' element={<Orders userToken={userToken} user={user}/>}></Route>

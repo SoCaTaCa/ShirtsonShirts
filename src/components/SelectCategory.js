@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
-const SelectCategory = ({ categories, setItems, getItems, setSearchTerm }) => {
+const SelectCategory = ({ categories, setItems, getItems, groupItems, setSearchTerm }) => {
     const [categoryId, setCategoryId] = useState('0');
 
     const filterByCategory = async () => {
@@ -9,7 +9,7 @@ const SelectCategory = ({ categories, setItems, getItems, setSearchTerm }) => {
             if (categoryId !== '0') {
                 const items = await axios.get(`/api/items/category/${categoryId}`);
                 if (items.data.success) {
-                    setItems(items.data.items);
+                    setItems(groupItems(items.data.items));
                 };
             } else {
                 getItems();

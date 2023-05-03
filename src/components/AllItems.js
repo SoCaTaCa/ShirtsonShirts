@@ -5,8 +5,8 @@ const AllItems = ({ filteredItems }) => {
     return (
         <ul>
             {
-                filteredItems.map((item) => {
-                    return <ProductCard item={item} key={item.id} />
+                filteredItems.map((item, index) => {
+                    return <ProductCard item={item[0]} key={index} />
                 })
             }
         </ul>

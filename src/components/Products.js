@@ -5,7 +5,7 @@ import SelectCategory from './SelectCategory';
 import { Link } from 'react-router-dom';
 import NewCategoryForm from './NewCategoryForm'
 
-const Products = ({ items, setItems, getItems, categories, user, userToken }) => {
+const Products = ({ items, setItems, getItems, groupItems, categories, user, userToken }) => {
     const [filteredItems, setFilteredItems] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
 
@@ -29,7 +29,7 @@ const Products = ({ items, setItems, getItems, categories, user, userToken }) =>
                     null
             }
             <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} items={items} setFilteredItems={setFilteredItems} />
-            <SelectCategory setItems={setItems} getItems={getItems} categories={categories} setSearchTerm={setSearchTerm} />
+            <SelectCategory setItems={setItems} getItems={getItems} groupItems={groupItems} categories={categories} setSearchTerm={setSearchTerm} />
             <AllItems filteredItems={filteredItems} />
         </div>
     )

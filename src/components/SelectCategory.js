@@ -9,7 +9,7 @@ const SelectCategory = ({ categories, setItems, getItems, groupItems, setSearchT
             if (categoryId !== '0') {
                 const items = await axios.get(`/api/items/category/${categoryId}`);
                 if (items.data.success) {
-                    setItems(groupItems(items.data.items));
+                    setItems(await groupItems(items.data.items));
                 };
             } else {
                 getItems();

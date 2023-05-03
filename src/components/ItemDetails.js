@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
-const ItemDetails = ({ userToken }) => {
+const ItemDetails = ({ userToken, user }) => {
   const { itemId } = useParams();
   const [item, setItem] = useState([]);
   const [quantity, setQuantity] = useState("");
@@ -50,7 +51,7 @@ const ItemDetails = ({ userToken }) => {
     <>
       <ul>
         <div>
-          <li>{item.imageUrl}</li>
+          <img src={item.imageURL} alt={item.name} />
           <li>{item.name}</li>
           <li>{item.price}</li>
           <li>{item.size}</li>
@@ -76,6 +77,11 @@ const ItemDetails = ({ userToken }) => {
           >
             Add To Cart
           </button>
+          {
+            (user.isAdmin) ?
+              <Link to={`/products/edit/${item.id}`}><button className='btn btn-primary'>Edit Item</button></Link> :
+              null
+          }
         </div>
       </ul>
     </>

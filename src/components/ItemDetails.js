@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Link } from 'react-router-dom';
 
 const ItemDetails = ({ userToken, user, isLoggedIn }) => {
@@ -8,6 +8,8 @@ const ItemDetails = ({ userToken, user, isLoggedIn }) => {
   const [items, setItems] = useState([]);
   const [selectedItem, setSelectedItem] = useState({});
   const [quantity, setQuantity] = useState("");
+
+  const navigate = useNavigate();
 
   const getItems = async () => {
     try {
@@ -38,6 +40,9 @@ const ItemDetails = ({ userToken, user, isLoggedIn }) => {
           },
         }
       );
+      if (response.data.success) {
+        navigate('/cart')
+      }
     } catch (err) {
       console.error(err);
     }

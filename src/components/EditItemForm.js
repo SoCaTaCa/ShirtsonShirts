@@ -102,7 +102,7 @@ const EditItemForm = ({ userToken, categories, getCategories, user }) => {
             {
                 (user.isAdmin) ?
                     <div className='item-form-container'>
-                        <form onSubmit={updateItem} className='item-form'>
+                        <form onSubmit={updateItem} className='item-form' autoComplete='off'>
                             <h1>Edit Product</h1>
                             <div className='form-floating mb-3 item-field'>
                                 <input
@@ -163,7 +163,6 @@ const EditItemForm = ({ userToken, categories, getCategories, user }) => {
                                     className='form-control'
                                     id='item-imageURL'
                                     value={imageURL}
-                                    required
                                     placeholder='Image URL'
                                     onChange={(event) => setImageURL(event.target.value)}>
                                 </input>

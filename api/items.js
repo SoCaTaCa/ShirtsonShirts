@@ -30,8 +30,14 @@ router.get("/", async (req, res) => {
 });
 // POST/api/items
 router.post("/", requireUser, requireAdmin, async (req, res) => {
+  const { name, price, size, categoryId, description } = req.body;
+  let { imageURL } = req.body;
+  if (!imageURL) {
+    imageURL = './images/default_shirt.png'
+  };
+  
   try {
-    const item = await createItem(req.body);
+    const item = await createItem({ name, price, size, categoryId, description, imageURL });
     if (item) {
       res.send({
         success: true,

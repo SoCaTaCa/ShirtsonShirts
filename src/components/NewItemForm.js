@@ -47,7 +47,7 @@ const NewItemForm = ({ userToken, categories, getCategories, user }) => {
             {
                 (user.isAdmin) ?
                     <div className='item-form-container'>
-                        <form onSubmit={createNewItem} className='item-form'>
+                        <form onSubmit={createNewItem} className='item-form' autoComplete='off'>
                             <h1>New Product</h1>
                             <div className='form-floating mb-3 item-field'>
                                 <input
@@ -106,7 +106,6 @@ const NewItemForm = ({ userToken, categories, getCategories, user }) => {
                                     className='form-control'
                                     id='item-imageURL'
                                     value={imageURL}
-                                    required
                                     placeholder='Image URL'
                                     onChange={(event) => setImageURL(event.target.value)}>
                                 </input>

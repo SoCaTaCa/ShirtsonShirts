@@ -7,7 +7,8 @@
     "build": "webpack",
     "build:dev": "webpack --watch --mode=development",
     "seed:dev": "nodemon ./db/seed.js",
-    "seed": "node ./db/seed.js",
+    "seed:": "node ./db/seed.js",
+    "seed:prod": "node ./db/seedProd.js",
     "start:dev": "nodemon server.js",
     "start": "node server.js"
   },

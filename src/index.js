@@ -93,7 +93,7 @@ const App = () => {
                 <Route path='/register' element={<Register setUserToken={setUserToken} setIsLoggedIn={setIsLoggedIn} />}></Route>
                 <Route path='/products' element={<Products items={items} setItems={setItems} getItems={getItems} groupItems={groupItems} categories={categories} user={user} userToken={userToken}/>}></Route>
                 <Route path='/cart' element={<Cart userToken={userToken} user={user}/>}></Route>
-                <Route path="/products/:itemname" element={<ItemDetails userToken={userToken} user={user} />}></Route>
+                <Route path="/products/:itemname" element={<ItemDetails userToken={userToken} user={user} isLoggedIn={isLoggedIn} />}></Route>
                 <Route path='/products/new' element={<NewItemForm userToken={userToken} categories={categories} getCategories={getCategories} user={user} />}></Route>
                 <Route path='/products/edit/:itemId' element={<EditItemForm userToken={userToken} categories={categories} getCategories={getCategories} user={user} />}></Route>
                 <Route path='/previousorders' element={<Orders userToken={userToken} user={user}/>}></Route>

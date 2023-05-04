@@ -68,13 +68,10 @@ const Cart = (props) => {
   return (
     <>
       {Object.keys(cart).length && cart.items.length ? (
-        <>
-          <h5>Total: ${total}</h5>
-          <button className="btn btn-primary" onClick={checkout}>
-            Checkout
-          </button>
-          {Object.keys(cart).length
-            ? cart.items.map((item) => {
+        <div className="d-flex justify-content-around">
+          <div>
+            {Object.keys(cart).length
+              ? cart.items.map((item) => {
                 return (
                   <SingleCartItem
                     item={item}
@@ -85,11 +82,18 @@ const Cart = (props) => {
                   />
                 );
               })
-            : null}
-        </>
+              : null}
+          </div>
+          <div>
+            <h5>Total: ${total}</h5>
+            <button className="btn btn-primary" onClick={checkout}>
+              Checkout
+            </button>
+          </div>
+        </div>
       ) : (
         <>
-          <h5>Your cart is empty. Go buy some shirts!</h5>
+          <h5 className="text-center mt-3">Your cart is empty. Go buy some shirts!</h5>
         </>
       )}
     </>
